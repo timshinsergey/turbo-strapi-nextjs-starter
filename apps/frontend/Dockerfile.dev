@@ -1,0 +1,21 @@
+FROM node:18-alpine AS builder
+# Set working directory
+WORKDIR /app
+RUN yarn global add turbo
+COPY . .
+RUN turbo prune --scope=frontend --docker
+
+FROM node:18-alpine AS runner
+
+ENV NODE_ENV development
+
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/yarn.lock ./yarn.lock
+RUN yarn install
+
+COPY --from=builder /app/out/full/ .
+COPY turbo.json turbo.json
+
+EXPOSE 3000
+
+CMD yarn turbo run dev

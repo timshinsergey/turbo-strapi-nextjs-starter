@@ -22,9 +22,10 @@
   "strapi": {
     "uuid": "a7ab6f9e-1e29-4c71-9f99-06a4d15b4c61"
   },
+  "packageManager": "yarn@1.22.19",
   "engines": {
-    "node": ">=14.19.1 <=16.x.x",
-    "npm": ">=6.0.0"
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   },
   "license": "MIT"
 }
