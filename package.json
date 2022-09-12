@@ -14,6 +14,8 @@
     "nuke": "rm -r node_modules; for d in */*/node_modules; do echo $d; rm -r $d; done",
     "docker:start": "docker compose up -d",
     "docker:stop": "docker compose down",
+    "docker:dev:start": "docker compose -f docker-compose.dev.yml up -d",
+    "docker:dev:stop": "docker compose -f docker-compose.dev.yml down",
     "docker:clean": "docker system prune -a -f --volumes"
   },
   "devDependencies": {
