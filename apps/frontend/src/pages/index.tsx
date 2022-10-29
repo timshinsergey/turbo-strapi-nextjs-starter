@@ -6,6 +6,7 @@ export default function Store() {
 	return (
 		<div>
 			<h1>Store</h1>
+			<img src='' />
 			<CounterButton />
 			<NewTabLink href='https://turborepo.org/'>Built With TurboRepo</NewTabLink>
 			<div className='some'></div>

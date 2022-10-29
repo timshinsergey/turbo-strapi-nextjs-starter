@@ -1,5 +1,5 @@
 module.exports = {
-	extends: ['turbo', 'prettier', 'plugin:tailwindcss/recommended'],
+	extends: ['next', 'turbo', 'prettier', 'plugin:tailwindcss/recommended'],
 	settings: {
 		react: {
 			version: 'detect',
