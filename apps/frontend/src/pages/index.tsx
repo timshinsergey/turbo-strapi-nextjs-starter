@@ -9,7 +9,7 @@ export default function Store() {
 			<img src='' />
 			<CounterButton />
 			<NewTabLink href='https://turborepo.org/'>Built With TurboRepo</NewTabLink>
-			<div className='some'></div>
+			<div className='bg-lime-400'>awd</div>
 		</div>
 	)
 }
