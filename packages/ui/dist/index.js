@@ -49,26 +49,26 @@ var NewTabLink = ({
 
 // src/CounterButton.tsx
 var React = __toESM(require("react"));
-var import_jsx_runtime = require("react/jsx-runtime");
+var import_jsx_runtime2 = require("react/jsx-runtime");
 var CounterButton = () => {
   const [count, setCount] = React.useState(0);
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", {
     style: {
       background: `rgba(255,255,255,.05)`,
       borderRadius: `8px`,
       padding: 16
     },
     children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", {
         children: [
           "This is component is from ",
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", {
             children: "ui"
           })
         ]
       }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-        children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", {
+        children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", {
           type: "button",
           onClick: () => setCount((c) => c + 1),
           children: [
