@@ -35,6 +35,7 @@ var CounterButton = () => {
         ]
       }),
       /* @__PURE__ */ jsx2("p", {
+        className: "some",
         children: /* @__PURE__ */ jsxs("button", {
           type: "button",
           onClick: () => setCount((c) => c + 1),
