@@ -1,4 +1,4 @@
-import Alert from '@shared/ui/alert'
+import { Alert } from '@shared/ui/alert'
 import { log } from 'logger'
 import { CounterButton, NewTabLink } from 'ui'
 

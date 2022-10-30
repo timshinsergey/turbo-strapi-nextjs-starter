@@ -1,13 +1,13 @@
-import { memo } from 'react'
 import type { HTMLAttributes } from 'react'
+import { memo } from 'react'
 import cn from 'classnames'
 
-export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
+interface AlertProps extends HTMLAttributes<HTMLDivElement> {
 	message: string
 	variant?: 'default' | 'success' | 'error' | 'warning'
 }
 
-const Alert = ({ className, message, variant = 'default', ...props }: AlertProps) => {
+const Alert = memo(({ className, message, variant = 'default', ...props }: AlertProps) => {
 	return (
 		<div
 			role='alert'
@@ -26,8 +26,9 @@ const Alert = ({ className, message, variant = 'default', ...props }: AlertProps
 			<p>{message}</p>
 		</div>
 	)
-}
+})
 
-// If you leave memo, the i18n texts
-// will not be displayed when switching languages
-export default memo(Alert)
+Alert.displayName = 'Alert'
+
+export { Alert }
+export type { AlertProps }
