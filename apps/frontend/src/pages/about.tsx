@@ -1,16 +1,12 @@
 import Alert from '@shared/ui/alert'
 import { log } from 'logger'
-import Link from 'next/link'
 import { CounterButton, NewTabLink } from 'ui'
 
 export default function Store() {
-	log('Hey! This is Home.')
+	log('Hey! This is About.')
 	return (
 		<div>
-			<h1>Store</h1>
-			<Link href='/about'>
-				<a>About</a>
-			</Link>
+			<h1>About</h1>
 			<Alert message='success message' variant='success' />
 			<CounterButton />
 			<NewTabLink href='https://turborepo.org/'>Built With TurboRepo</NewTabLink>
