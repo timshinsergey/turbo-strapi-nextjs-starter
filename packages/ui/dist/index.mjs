@@ -1,54 +1,23 @@
-// src/NewTabLink.tsx
-import { jsx } from "react/jsx-runtime";
-var NewTabLink = ({
-  children,
-  href,
-  ...other
-}) => {
-  return /* @__PURE__ */ jsx("a", {
-    target: "_blank",
-    rel: "noreferrer",
-    href,
-    ...other,
-    children
-  });
-};
-
-// src/CounterButton.tsx
-import * as React from "react";
-import { jsx as jsx2, jsxs } from "react/jsx-runtime";
-var CounterButton = () => {
-  const [count, setCount] = React.useState(0);
-  return /* @__PURE__ */ jsxs("div", {
-    style: {
-      background: `rgba(255,255,255,.05)`,
-      borderRadius: `8px`,
-      padding: 16
-    },
-    children: [
-      /* @__PURE__ */ jsxs("p", {
+// src/Button.tsx
+import { jsx, jsxs } from "react/jsx-runtime";
+var Button = () => {
+  return /* @__PURE__ */ jsx("div", {
+    className: "rounded-md ",
+    children: /* @__PURE__ */ jsx("a", {
+      href: "https://turborepo.org/docs/getting-started",
+      children: /* @__PURE__ */ jsxs("div", {
+        className: "flex w-full items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white no-underline hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-300 md:py-3 md:px-10 md:text-lg md:leading-6",
         children: [
-          "This is component is from ",
-          /* @__PURE__ */ jsx2("code", {
-            children: "ui"
+          "Read the docs",
+          /* @__PURE__ */ jsx("span", {
+            className: "bg-gradient-to-r text-transparent ml-2 bg-clip-text",
+            children: "\u2192"
           })
         ]
-      }),
-      /* @__PURE__ */ jsx2("p", {
-        className: "some",
-        children: /* @__PURE__ */ jsxs("button", {
-          type: "button",
-          onClick: () => setCount((c) => c + 1),
-          children: [
-            "count ",
-            count
-          ]
-        })
       })
-    ]
+    })
   });
 };
 export {
-  CounterButton,
-  NewTabLink
+  Button
 };

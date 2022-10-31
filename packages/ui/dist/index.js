@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,72 +15,36 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.tsx
 var src_exports = {};
 __export(src_exports, {
-  CounterButton: () => CounterButton,
-  NewTabLink: () => NewTabLink
+  Button: () => Button
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/NewTabLink.tsx
+// src/Button.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
-var NewTabLink = ({
-  children,
-  href,
-  ...other
-}) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-    target: "_blank",
-    rel: "noreferrer",
-    href,
-    ...other,
-    children
-  });
-};
-
-// src/CounterButton.tsx
-var React = __toESM(require("react"));
-var import_jsx_runtime2 = require("react/jsx-runtime");
-var CounterButton = () => {
-  const [count, setCount] = React.useState(0);
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", {
-    style: {
-      background: `rgba(255,255,255,.05)`,
-      borderRadius: `8px`,
-      padding: 16
-    },
-    children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", {
+var Button = () => {
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+    className: "rounded-md ",
+    children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+      href: "https://turborepo.org/docs/getting-started",
+      children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+        className: "flex w-full items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white no-underline hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-300 md:py-3 md:px-10 md:text-lg md:leading-6",
         children: [
-          "This is component is from ",
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", {
-            children: "ui"
+          "Read the docs",
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+            className: "bg-gradient-to-r text-transparent ml-2 bg-clip-text",
+            children: "\u2192"
           })
         ]
-      }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", {
-        className: "some",
-        children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", {
-          type: "button",
-          onClick: () => setCount((c) => c + 1),
-          children: [
-            "count ",
-            count
-          ]
-        })
       })
-    ]
+    })
   });
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  CounterButton,
-  NewTabLink
+  Button
 });
