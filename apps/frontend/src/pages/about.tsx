@@ -1,12 +1,12 @@
-import { Alert } from '@shared/ui/alert'
 import { log } from 'logger'
+import { Alert } from 'ui'
 
 export default function Store() {
 	log('Hey! This is About.')
 	return (
 		<div>
 			<h1>About</h1>
-			<Alert message='success message' variant='success' />
+			<Alert variant='success'>success message</Alert>
 			<div className='bg-lime-400'>awd</div>
 		</div>
 	)

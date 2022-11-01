@@ -1,7 +1,6 @@
-import { Alert } from '@shared/ui/alert'
 import { log } from 'logger'
 import Link from 'next/link'
-import { Button } from 'ui'
+import { Alert } from 'ui'
 
 export default function Store() {
 	log('Hey! This is Home.')
@@ -11,8 +10,7 @@ export default function Store() {
 			<Link href='/about'>
 				<a>About</a>
 			</Link>
-			<Alert message='success message' variant='success' />
-			<Button />
+			<Alert variant='error'>error message</Alert>
 			<div className='bg-lime-400'>awd</div>
 		</div>
 	)
