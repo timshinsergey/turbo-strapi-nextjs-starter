@@ -1,11 +1,11 @@
 import { log } from 'logger'
 import Link from 'next/link'
-import { Alert, Spinner } from 'ui'
+import { Alert, Container, Spinner } from 'ui'
 
 export default function Store() {
 	log('Hey! This is Home.')
 	return (
-		<div>
+		<Container>
 			<h1>Store</h1>
 			<Link href='/about'>
 				<a>About</a>
@@ -14,6 +14,6 @@ export default function Store() {
 				error message <Spinner svgClassName='w-4 h-4 text-black' />
 			</Alert>
 			<div className='bg-lime-400'>awd</div>
-		</div>
+		</Container>
 	)
 }

@@ -81,24 +81,41 @@ var require_classnames = __commonJS({
 var src_exports = {};
 __export(src_exports, {
   Alert: () => Alert,
+  Container: () => Container,
   Spinner: () => Spinner
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/spinner/index.tsx
+// src/container/index.tsx
 var import_react = require("react");
 var import_classnames = __toESM(require_classnames());
 var import_jsx_runtime = require("react/jsx-runtime");
-var Spinner = (0, import_react.memo)(
+var Container = (0, import_react.memo)(
+  ({ children, el: Component = "div", className, noPadding }) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Component, {
+      className: (0, import_classnames.default)(className, "container", {
+        ["px-0"]: noPadding
+      }),
+      children
+    });
+  }
+);
+Container.displayName = "Container";
+
+// src/spinner/index.tsx
+var import_react2 = require("react");
+var import_classnames2 = __toESM(require_classnames());
+var import_jsx_runtime2 = require("react/jsx-runtime");
+var Spinner = (0, import_react2.memo)(
   ({ svgClassName = "w-4 h-4 text-white", ariaLabelledby }) => {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", {
       role: "progressbar",
       "aria-labelledby": ariaLabelledby,
       className: "animate-spin inline-flex",
-      children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+      children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("svg", {
         viewBox: "22 22 44 44",
-        className: (0, import_classnames.default)(svgClassName, "animate-spinner inline-flex stroke-current stroke-3"),
-        children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+        className: (0, import_classnames2.default)(svgClassName, "animate-spinner inline-flex stroke-current stroke-3"),
+        children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", {
           cx: "44",
           cy: "44",
           r: "20.2",
@@ -111,13 +128,13 @@ var Spinner = (0, import_react.memo)(
 Spinner.displayName = "Spinner";
 
 // src/alert/index.tsx
-var import_react2 = require("react");
-var import_classnames2 = __toESM(require_classnames());
-var import_jsx_runtime2 = require("react/jsx-runtime");
-var Alert = (0, import_react2.memo)(({ className, children, variant = "default", ...props }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", {
+var import_react3 = require("react");
+var import_classnames3 = __toESM(require_classnames());
+var import_jsx_runtime3 = require("react/jsx-runtime");
+var Alert = (0, import_react3.memo)(({ className, children, variant = "default", ...props }) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", {
     role: "alert",
-    className: (0, import_classnames2.default)(className, "p-4 text-sm rounded-lg", {
+    className: (0, import_classnames3.default)(className, "p-4 text-sm rounded-lg", {
       ["bg-white text-black-50 dark:bg-black-50 dark:text-white"]: variant === "default",
       ["text-green-700 bg-green-100 dark:bg-green-200 dark:text-green-800"]: variant === "success",
       ["text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800"]: variant === "error",
@@ -132,6 +149,7 @@ Alert.displayName = "Alert";
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Alert,
+  Container,
   Spinner
 });
 /*!
