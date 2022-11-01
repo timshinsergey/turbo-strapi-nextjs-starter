@@ -3,6 +3,7 @@ import 'ui/styles.css'
 import type { AppProps } from 'next/app'
 import Router from 'next/router'
 import NProgress from 'nprogress'
+import { Toast } from 'ui'
 
 NProgress.configure({ showSpinner: false })
 
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
 			<Component {...pageProps} />
+			<Toast />
 		</>
 	)
 }

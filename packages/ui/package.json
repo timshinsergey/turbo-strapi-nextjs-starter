@@ -21,6 +21,7 @@
     "eslint": "^8.26.0",
     "eslint-config-custom": "*",
     "react": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
     "tailwind-config": "*",
     "tailwindcss": "^3.2.1",
     "tsconfig": "*",

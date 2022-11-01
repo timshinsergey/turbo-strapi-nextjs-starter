@@ -11,7 +11,7 @@ const Alert = memo(({ className, children, variant = 'default', ...props }: Aler
 		<div
 			role='alert'
 			className={cn(className, 'p-4 text-sm rounded-lg', {
-				['bg-white text-black-50 dark:bg-black-50 dark:text-white']: variant === 'default',
+				['bg-white text-black dark:bg-black dark:text-white border']: variant === 'default',
 				['text-green-700 bg-green-100 dark:bg-green-200 dark:text-green-800']:
 					variant === 'success',
 				['text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800']: variant === 'error',

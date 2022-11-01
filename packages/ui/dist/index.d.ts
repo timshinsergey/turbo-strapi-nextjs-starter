@@ -1,5 +1,6 @@
 import * as react from 'react';
 import { ReactNode, ComponentType, HTMLAttributes, ElementType, ComponentProps } from 'react';
+import { ToasterProps } from 'react-hot-toast';
 
 interface IconProps {
     name: string;
@@ -57,4 +58,10 @@ interface ButtonLinkProps extends DefaultButtonProps<'a'> {
 }
 declare const ButtonLink: react.MemoExoticComponent<({ children, rightIcon, leftIcon, ...props }: ButtonLinkProps) => JSX.Element>;
 
-export { Alert, AlertProps, Button, ButtonLink, ButtonLinkProps, ButtonProps, Container, ContainerProps, Icon, IconButton, IconButtonProps, IconProps, Spinner, SpinnerProps };
+interface ToastProps extends ToasterProps {
+}
+declare const Toast: react.MemoExoticComponent<({ ...props }: ToastProps) => JSX.Element>;
+
+declare const showToast: ({ children, ...props }: AlertProps) => string;
+
+export { Alert, AlertProps, Button, ButtonLink, ButtonLinkProps, ButtonProps, Container, ContainerProps, Icon, IconButton, IconButtonProps, IconProps, Spinner, SpinnerProps, Toast, ToastProps, showToast };

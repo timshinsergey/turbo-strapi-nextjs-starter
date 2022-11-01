@@ -25,6 +25,14 @@ module.exports = {
 				3: '3',
 			},
 			keyframes: {
+				enter: {
+					'0%': { transform: 'scale(0.9)', opacity: 0 },
+					'100%': { transform: 'scale(1)', opacity: 1 },
+				},
+				leave: {
+					'0%': { transform: 'scale(1)', opacity: 1 },
+					'100%': { transform: 'scale(0.9)', opacity: 0 },
+				},
 				spinner: {
 					'0%': { strokeDasharray: '1px, 200px', strokeDashoffset: '0' },
 					'50%': { strokeDasharray: '100px, 200px', strokeDashoffset: '-15px' },
@@ -32,6 +40,8 @@ module.exports = {
 				},
 			},
 			animation: {
+				enter: 'enter 200ms ease-out',
+				leave: 'leave 150ms ease-in forwards',
 				spinner: 'spinner 1s ease-in-out infinite',
 			},
 		},
