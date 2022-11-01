@@ -71,14 +71,39 @@ var require_classnames = __commonJS({
   }
 });
 
-// src/alert/index.tsx
+// src/spinner/index.tsx
 var import_classnames = __toESM(require_classnames());
 import { memo } from "react";
 import { jsx } from "react/jsx-runtime";
-var Alert = memo(({ className, children, variant = "default", ...props }) => {
-  return /* @__PURE__ */ jsx("div", {
+var Spinner = memo(
+  ({ svgClassName = "w-4 h-4 text-white", ariaLabelledby }) => {
+    return /* @__PURE__ */ jsx("span", {
+      role: "progressbar",
+      "aria-labelledby": ariaLabelledby,
+      className: "animate-spin inline-flex",
+      children: /* @__PURE__ */ jsx("svg", {
+        viewBox: "22 22 44 44",
+        className: (0, import_classnames.default)(svgClassName, "animate-spinner inline-flex stroke-current stroke-3"),
+        children: /* @__PURE__ */ jsx("circle", {
+          cx: "44",
+          cy: "44",
+          r: "20.2",
+          fill: "none"
+        })
+      })
+    });
+  }
+);
+Spinner.displayName = "Spinner";
+
+// src/alert/index.tsx
+var import_classnames2 = __toESM(require_classnames());
+import { memo as memo2 } from "react";
+import { jsx as jsx2 } from "react/jsx-runtime";
+var Alert = memo2(({ className, children, variant = "default", ...props }) => {
+  return /* @__PURE__ */ jsx2("div", {
     role: "alert",
-    className: (0, import_classnames.default)(className, "p-4 text-sm rounded-lg", {
+    className: (0, import_classnames2.default)(className, "p-4 text-sm rounded-lg", {
       ["bg-white text-black-50 dark:bg-black-50 dark:text-white"]: variant === "default",
       ["text-green-700 bg-green-100 dark:bg-green-200 dark:text-green-800"]: variant === "success",
       ["text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800"]: variant === "error",
@@ -91,7 +116,8 @@ var Alert = memo(({ className, children, variant = "default", ...props }) => {
 });
 Alert.displayName = "Alert";
 export {
-  Alert
+  Alert,
+  Spinner
 };
 /*!
 	Copyright (c) 2018 Jed Watson.

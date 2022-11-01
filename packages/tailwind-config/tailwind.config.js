@@ -21,6 +21,19 @@ module.exports = {
 					xl: '4rem',
 				},
 			},
+			strokeWidth: {
+				3: '3',
+			},
+			keyframes: {
+				spinner: {
+					'0%': { strokeDasharray: '1px, 200px', strokeDashoffset: '0' },
+					'50%': { strokeDasharray: '100px, 200px', strokeDashoffset: '-15px' },
+					'100%': { strokeDasharray: '100px, 200px', strokeDashoffset: '-125px' },
+				},
+			},
+			animation: {
+				spinner: 'spinner 1s ease-in-out infinite',
+			},
 		},
 	},
 	plugins: [require('@tailwindcss/line-clamp')],
