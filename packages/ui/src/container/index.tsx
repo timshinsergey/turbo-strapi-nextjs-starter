@@ -6,22 +6,11 @@ interface ContainerProps {
 	children: ReactNode | ReactNode[]
 	el?: string | ComponentType<HTMLAttributes<HTMLElement>>
 	className?: string
-	noPadding?: boolean
 }
 
-const Container = memo(
-	({ children, el: Component = 'div', className, noPadding }: ContainerProps): JSX.Element => {
-		return (
-			<Component
-				className={cn(className, 'container', {
-					['px-0']: noPadding,
-				})}
-			>
-				{children}
-			</Component>
-		)
-	}
-)
+const Container = memo(({ children, el: Component = 'div', className }: ContainerProps) => {
+	return <Component className={cn(className, 'container')}>{children}</Component>
+})
 
 Container.displayName = 'Container'
 

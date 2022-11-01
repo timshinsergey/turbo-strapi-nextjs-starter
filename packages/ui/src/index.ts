@@ -1,3 +1,5 @@
+export * from './icon'
 export * from './container'
 export * from './spinner'
 export * from './alert'
+export * from './button'
