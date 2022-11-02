@@ -1,8 +1,24 @@
 version: '3.9'
 
 services:
+  strapi:
+    container_name: strapi-dev
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile.dev
+    restart: always
+    env_file: ./apps/api/.env
+    volumes:
+      - ./apps/api/config:/app/apps/api/config
+      - ./apps/api/src:/app/apps/api/src
+      - ./apps/api/package.json:/app/apps/api/package.json
+      - ./apps/yarn.lock:/app/apps/yarn.lock
+      - ./apps/api/.env:/app/apps/api/.env
+      - ./apps/api/public/uploads:/app/apps/api/public/uploads
+    ports:
+      - '1337:1337'
   frontend:
-    container_name: frontend
+    container_name: frontend-dev
     build:
       context: .
       dockerfile: ./apps/frontend/Dockerfile.dev
