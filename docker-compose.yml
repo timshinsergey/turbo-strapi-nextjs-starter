@@ -10,19 +10,25 @@ services:
       ANALYZE: '{{ env.ANALYZE }}'
       NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: '{{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}'
     restart: always
-    ports:
-      - 3000:3000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.front.rule=Host(`monopomnom.ru`)
+      - traefik.http.services.front.loadbalancer.server.port=3000
   traefik:
     image: traefik:v2.9.4
     container_name: traefik
     command:
-      - --log.level=DEBUG
-      - --api=true
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --api.debug=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
     ports:
       - 80:80
-      - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.monopomnom.ru`)
+      - traefik.http.routers.traefik.service=api@internal
