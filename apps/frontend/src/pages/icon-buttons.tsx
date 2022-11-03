@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Alert, Container, Icon, IconButton, Spinner } from 'ui'
 
 export default function IconButtons() {
-	log('Hey! This is Icon Buttons.')
+	log('Hey! This is Icon Buttons!')
 	return (
 		<Container>
 			<h1>Icon Buttons</h1>
