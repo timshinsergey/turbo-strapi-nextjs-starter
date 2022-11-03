@@ -64,8 +64,8 @@ services:
         # Passwords must be hashed using BCrypt.
         - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
 
-    # Add more containers below (nginx, postgres, etc.)
-    # Define a network, which allows containers to communicate
-    # with each other, by using their container name as a hostname
-    volumes:
-      letsencrypt:
+  # Add more containers below (nginx, postgres, etc.)
+  # Define a network, which allows containers to communicate
+  # with each other, by using their container name as a hostname
+  volumes:
+    letsencrypt:
