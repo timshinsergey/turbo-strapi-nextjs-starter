@@ -1,25 +1,25 @@
 version: '3.9'
 
 services:
-  # front:
-  #   image: '{{ env.IMAGE_URL }}'
-  #   container_name: front
-  #   environment:
-  #     ENV_VARIABLE: '{{ env.ENV_VARIABLE }}'
-  #     NEXT_PUBLIC_ENV_VARIABLE: '{{ env.NEXT_PUBLIC_ENV_VARIABLE }}'
-  #     ANALYZE: '{{ env.ANALYZE }}'
-  #     NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: '{{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}'
-  #   restart: always
-  #   # for domain connection
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.front.rule=Host(`monopomnom.ru`)
-  #     - traefik.http.services.front.loadbalancer.server.port=3000
-  #     - traefik.http.routers.front.tls=true
-  #     - traefik.http.routers.front.tls.certresolver=myresolver
-  #     - traefik.http.routers.front.entrypoints=websecure
+  front:
+    image: '{{ env.IMAGE_URL }}'
+    container_name: front
+    environment:
+      ENV_VARIABLE: '{{ env.ENV_VARIABLE }}'
+      NEXT_PUBLIC_ENV_VARIABLE: '{{ env.NEXT_PUBLIC_ENV_VARIABLE }}'
+      ANALYZE: '{{ env.ANALYZE }}'
+      NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: '{{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}'
+    restart: always
+    # for domain connection
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.front.rule=Host(`monopomnom.ru`)
+      - traefik.http.services.front.loadbalancer.server.port=3000
+      - traefik.http.routers.front.tls=true
+      - traefik.http.routers.front.tls.certresolver=myresolver
+      - traefik.http.routers.front.entrypoints=websecure
   traefik:
-    image: traefik:v2.8
+    image: traefik:v2.9.4
     container_name: traefik
     command:
       - --log.level=DEBUG
@@ -27,15 +27,15 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
-      # - --entrypoints.websecure.address=:443
-      # - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-      # - --certificatesresolvers.myresolver.acme.httpchallenge=true
-      # - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
-      # - --certificatesresolvers.myresolver.acme.email=timshinsergey1@gmail.com
-      # - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.myresolver.acme.httpchallenge=true
+      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.myresolver.acme.email=timshinsergey1@gmail.com
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     ports:
       - 80:80
-      # - 443:443
+      - 443:443
       - 8080:8080
     volumes:
       - /letsencrypt:/letsencrypt
@@ -47,21 +47,20 @@ services:
       - traefik.http.routers.traefik.rule=Host(`traefik.monopomnom.ru`)
       - traefik.http.routers.traefik.entrypoints=web
       - traefik.http.routers.traefik.middlewares=redirect-to-https
-      # # middleware redirect
-      # - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-      # # Dashboard
-      # - traefik.http.routers.traefik-secure.rule=hostregexp(`{host:.+}`)
-      # - traefik.http.routers.traefik-secure.rule=Host(`traefik.monopomnom.ru`)
-      # - traefik.http.routers.traefik-secure.tls=true
-      # - traefik.http.routers.traefik-secure.tls.certresolver=myresolver
-      # - traefik.http.routers.traefik-secure.entrypoints=websecure
-      # - traefik.http.routers.traefik-secure.service=api@internal
-      # # auth
-      # - traefik.http.routers.traefik-secure.middlewares=auth
-      # # Note: all dollar signs in the hash need to be doubled for escaping.
-      # # Passwords must be hashed using BCrypt.
-      # - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
-
+      # middleware redirect
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      # Dashboard
+      - traefik.http.routers.traefik-secure.rule=hostregexp(`{host:.+}`)
+      - traefik.http.routers.traefik-secure.rule=Host(`traefik.monopomnom.ru`)
+      - traefik.http.routers.traefik-secure.tls=true
+      - traefik.http.routers.traefik-secure.tls.certresolver=myresolver
+      - traefik.http.routers.traefik-secure.entrypoints=websecure
+      - traefik.http.routers.traefik-secure.service=api@internal
+      # auth
+      - traefik.http.routers.traefik-secure.middlewares=auth
+      # Note: all dollar signs in the hash need to be doubled for escaping.
+      # Passwords must be hashed using BCrypt.
+      - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
       # Add more containers below (nginx, postgres, etc.)
       # Define a network, which allows containers to communicate
       # with each other, by using their container name as a hostname
