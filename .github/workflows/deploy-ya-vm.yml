@@ -17,7 +17,7 @@ env:
   CR_HOST: cr.yandex
   CR_IMAGE: next-starter
   VM_NAME: next-starter
-  CR_REPOSITORY: crpqfal48gn8a3qd221i
+  CR_REPOSITORY: crpsekeafeo0j7cjq530
   CR_URL: $CR_HOST/$CR_REPOSITORY/$CR_IMAGE
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
