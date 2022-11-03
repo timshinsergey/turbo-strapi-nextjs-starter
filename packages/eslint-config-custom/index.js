@@ -1,8 +1,3 @@
 module.exports = {
-  extends: ["next", "turbo", "prettier"],
-  settings: {
-    react: {
-      version: "detect",
-    },
-  },
-};
+	extends: ['turbo', 'prettier', 'plugin:tailwindcss/recommended'],
+}
