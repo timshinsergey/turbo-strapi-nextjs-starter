@@ -10,9 +10,8 @@ This Turborepo includes the following packages and apps:
 
 - `api`: an [Strapi](https://strapi.io/) server
 - `frontend`: a [Next.js](https://nextjs.org) app
-- `admin`: a [Vite](https://vitejs.dev/) single page app
 - `logger`: isomorphic logger (a small wrapper around console.log)
-- `ui`: a dummy React UI library (which contains a single `<CounterButton>` component)
+- `ui`: a dummy React UI library (which contains a single `<Button>` component)
 - `scripts`: Jest and eslint configurations
 - `tsconfig`: tsconfig.json;s used throughout the monorepo
 
