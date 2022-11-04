@@ -15,10 +15,12 @@ on:
 
 env:
   CR_HOST: cr.yandex
-  CR_IMAGE: front
-  VM_NAME: monopomnom
+  FRONT_CR_IMAGE: front
+  BACKEND_CR_IMAGE: backend
+  VM_NAME: ${{ secrets.VM_NAME }}
   CR_REPOSITORY: crpqfal48gn8a3qd221i
-  CR_URL: $CR_HOST/$CR_REPOSITORY/$CR_IMAGE
+  FRONT_CR_URL: $CR_HOST/$FRONT_CR_IMAGE/$CR_IMAGE
+  BACKEND_CR_URL: $CR_HOST/$BACKEND_CR_IMAGE/$CR_IMAGE
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -39,8 +41,13 @@ jobs:
 
       - name: Build, tag, and push front image to Yandex Cloud Container Registry
         run: |
-          docker build -f apps/frontend/Dockerfile -t ${{ env.CR_URL}}:${{ github.sha }} .
-          docker push ${{ env.CR_URL}}:${{ github.sha }}
+          docker build -f apps/frontend/Dockerfile -t ${{ env.FRONT_CR_URL}}:${{ github.sha }} .
+          docker push ${{ env.FRONT_CR_URL}}:${{ github.sha }}
+
+      - name: Build, tag, and push backend image to Yandex Cloud Container Registry
+        run: |
+          docker build -f apps/api/Dockerfile -t ${{ env.BACKEND_CR_URL}}:${{ github.sha }} .
+          docker push ${{ env.BACKEND_CR_URL}}:${{ github.sha }}
   deploy:
     needs:
       - build
@@ -55,10 +62,18 @@ jobs:
           NEXT_PUBLIC_ENV_VARIABLE: ${{ secrets.NEXT_PUBLIC_ENV_VARIABLE }}
           ANALYZE: ${{ secrets.ANALYZE }}
           NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
-          IMAGE_URL: ${{ env.CR_HOST }}/${{ env.CR_REPOSITORY }}/${{ env.CR_IMAGE }}:${{ github.sha }}
+          BAKCEND_IMAGE_URL: ${{ env.CR_HOST }}/${{ env.CR_REPOSITORY }}/${{ env.BACKEND_CR_URL }}:${{ github.sha }}
+          FRONT_IMAGE_URL: ${{ env.CR_HOST }}/${{ env.CR_REPOSITORY }}/${{ env.FRONT_CR_URL }}:${{ github.sha }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           TRAEFIK_DASHBOARD_LOGIN: ${{ secrets.TRAEFIK_DASHBOARD_LOGIN }}
           TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.TRAEFIK_DASHBOARD_PASSWORD }}
+          BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
+          FRONT_HOST: ${{ secrets.FRONT_HOST }}
+          TRAEFIK_HOST: ${{ secrets.TRAEFIK_HOST }}
+          APP_KEYS: ${{ secrets.APP_KEYS }}
+          API_TOKEN_SALT: ${{ secrets.API_TOKEN_SALT }}
+          ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         with:
           yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
           folder-id: b1gke16sajj09en730l2
