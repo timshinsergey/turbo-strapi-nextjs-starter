@@ -62,7 +62,7 @@ jobs:
           NEXT_PUBLIC_ENV_VARIABLE: ${{ secrets.NEXT_PUBLIC_ENV_VARIABLE }}
           ANALYZE: ${{ secrets.ANALYZE }}
           NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
-          BAKCEND_IMAGE_URL: ${{ env.CR_HOST }}/${{ env.CR_REPOSITORY }}/${{ env.BACKEND_CR_IMAGE }}:${{ github.sha }}
+          BACKEND_IMAGE_URL: ${{ env.CR_HOST }}/${{ env.CR_REPOSITORY }}/${{ env.BACKEND_CR_IMAGE }}:${{ github.sha }}
           FRONT_IMAGE_URL: ${{ env.CR_HOST }}/${{ env.CR_REPOSITORY }}/${{ env.FRONT_CR_IMAGE }}:${{ github.sha }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           TRAEFIK_DASHBOARD_LOGIN: ${{ secrets.TRAEFIK_DASHBOARD_LOGIN }}

@@ -3,7 +3,7 @@ version: '3.9'
 services:
   strapi:
     container_name: strapi
-    image: {{ env.BAKCEND_IMAGE_URL }}
+    image: {{ env.BACKEND_IMAGE_URL }}
     environment:
       # DATABASE_CLIENT: {{ env.DATABASE_CLIENT }}
       # DATABASE_HOST: strapiDB
