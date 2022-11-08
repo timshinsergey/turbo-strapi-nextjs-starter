@@ -19,7 +19,7 @@ services:
       # AWS_ACCESS_SECRET: {{ env.AWS_ACCESS_SECRET }}
       # AWS_REGION: {{ env.AWS_REGION }}
       # AWS_BUCKET: {{ env.AWS_BUCKET }}
-    restart: unless-stopped
+    restart: always
     # for domain connection
     labels:
       - traefik.enable=true
@@ -62,6 +62,7 @@ services:
       - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
       - --certificatesresolvers.myresolver.acme.email=timshinsergey1@gmail.com
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+    restart: always
     ports:
       - 80:80
       - 443:443
