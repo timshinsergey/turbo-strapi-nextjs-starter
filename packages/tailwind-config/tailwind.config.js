@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['src/**/*.{js,ts,jsx,tsx}'],
@@ -19,6 +21,20 @@ module.exports = {
 					DEFAULT: '1rem',
 					sm: '3rem',
 					xl: '4rem',
+				},
+			},
+			colors: {
+				primary: {
+					DEFAULT: colors.indigo['600'],
+				},
+				secondary: {
+					DEFAULT: colors.indigo['100'],
+				},
+				error: {
+					DEFAULT: colors.red['700'],
+				},
+				success: {
+					DEFAULT: colors.green['700'],
 				},
 			},
 			strokeWidth: {

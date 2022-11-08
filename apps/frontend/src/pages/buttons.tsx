@@ -56,19 +56,19 @@ export default function Buttons() {
 					</Button>
 				</div>
 				<div className='grid grid-flow-col gap-2 justify-start items-end'>
-					<Button onClick={showInfoToast} variant='filled' size='extra-small'>
+					<Button onClick={showInfoToast} round variant='filled' size='extra-small'>
 						Button
 					</Button>
-					<Button onClick={showInfoToast} variant='filled' size='small'>
+					<Button onClick={showInfoToast} round variant='filled' size='small'>
 						Button
 					</Button>
-					<Button onClick={showInfoToast} variant='filled'>
+					<Button onClick={showInfoToast} round variant='filled'>
 						Button
 					</Button>
-					<Button onClick={showInfoToast} variant='filled' size='large'>
+					<Button onClick={showInfoToast} round variant='filled' size='large'>
 						Button
 					</Button>
-					<Button onClick={showInfoToast} variant='filled' size='extra-large'>
+					<Button onClick={showInfoToast} round variant='filled' size='extra-large'>
 						Button
 					</Button>
 				</div>

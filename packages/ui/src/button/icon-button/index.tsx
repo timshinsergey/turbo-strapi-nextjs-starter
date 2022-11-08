@@ -6,8 +6,9 @@ import { Spinner } from '../../spinner'
 interface IconButtonProps extends ComponentProps<'button'> {
 	variant?: 'base' | 'filled' | 'outlined' | 'custom'
 	color?: 'primary' | 'secondary' | 'error' | 'success' | 'warning' | 'custom'
-	size?: 'small' | 'base' | 'large' | 'custom'
+	size?: 'extra-small' | 'small' | 'base' | 'large' | 'extra-large' | 'custom'
 	loading?: boolean
+	round?: boolean
 }
 
 const IconButton = memo(
@@ -17,6 +18,7 @@ const IconButton = memo(
 				variant = 'base',
 				size = 'base',
 				color = 'primary',
+				round = false,
 				className,
 				disabled,
 				children,
@@ -33,10 +35,12 @@ const IconButton = memo(
 					type='button'
 					className={cn(
 						className,
-						'grid relative rounded-lg focus:ring-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25',
+						'inline-flex items-center border focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25',
 						{
 							['text-white']: variant === 'filled',
-							['border [&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white']:
+							['border-transparent']: variant === 'filled' || variant === 'base',
+							['shadow-sm']: variant === 'filled' || variant === 'outlined',
+							['[&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white']:
 								variant === 'outlined',
 
 							['text-blue-700 [&:not(:disabled)]:hover:bg-blue-100 ']:
@@ -74,14 +78,28 @@ const IconButton = memo(
 							['text-red-700 border-red-700 [&:not(:disabled)]:hover:bg-red-800 focus:ring-red-300 dark:border-red-500 dark:text-red-500 [&:not(:disabled)]:dark:hover:bg-red-600 dark:focus:ring-red-900']:
 								color === 'error' && variant === 'outlined',
 
-							['p-2']: size === 'small',
-							['p-2.5']: size === 'base',
-							['p-3']: size === 'large',
+							['p-1']: size === 'extra-small',
+							['p-1.5']: size === 'small',
+							['p-2']: size === 'base' || size === 'large',
+							['p-3']: size === 'extra-large',
+
+							['rounded-full']: round,
+							['rounded']: !round && size === 'extra-small',
+							['rounded-md']: !round && size !== 'extra-small',
 						}
 					)}
 					{...props}
 				>
-					{loading ? <Spinner /> : children}
+					{loading ? (
+						<Spinner
+							svgClassName={cn({
+								['h-5 w-5']: size === 'extra-small' || size === 'small' || size === 'base',
+								['h-6 w-6']: size === 'large' || size === 'extra-large',
+							})}
+						/>
+					) : (
+						children
+					)}
 				</button>
 			)
 		}

@@ -15,7 +15,7 @@ const Spinner = memo(({ svgClassName = 'w-4 h-4', ariaLabelledby }: SpinnerProps
 				focusable='false'
 				aria-hidden='true'
 			>
-				<circle cx='44' cy='44' r='20.2' fill='none' />
+				<circle cx='44' cy='44' r='14' fill='none' />
 			</svg>
 		</span>
 	)

@@ -8,6 +8,7 @@ type DefaultButtonOwnProps<E extends ElementType = ElementType> = {
 	color?: 'primary' | 'secondary' | 'error' | 'success' | 'warning' | 'custom'
 	size?: 'extra-small' | 'small' | 'base' | 'large' | 'extra-large' | 'custom'
 	className?: string
+	round?: boolean
 }
 
 export type DefaultButtonProps<E extends ElementType> = DefaultButtonOwnProps<E> &
@@ -24,6 +25,7 @@ const DefaultButton: <E extends ElementType = typeof defaultElement>(
 		variant = 'base',
 		size = 'base',
 		color = 'primary',
+		round = false,
 		...props
 	}: DefaultButtonOwnProps,
 	ref: Ref<Element>
@@ -34,10 +36,12 @@ const DefaultButton: <E extends ElementType = typeof defaultElement>(
 			ref={ref}
 			className={cn(
 				className,
-				'grid grid-flow-col relative justify-center items-center rounded-lg font-bold gap-2 focus:ring-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25',
+				'inline-flex items-center border relative font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25',
 				{
 					['text-white']: variant === 'filled',
-					['border [&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white']:
+					['border-transparent']: variant === 'filled' || variant === 'base',
+					['shadow-sm']: variant === 'filled' || variant === 'outlined',
+					['[&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white']:
 						variant === 'outlined',
 
 					['text-blue-700 [&:not(:disabled)]:hover:bg-blue-100']:
@@ -75,11 +79,15 @@ const DefaultButton: <E extends ElementType = typeof defaultElement>(
 					['text-red-700 border-red-700 [&:not(:disabled)]:hover:bg-red-800 focus:ring-red-300 dark:border-red-500 dark:text-red-500 [&:not(:disabled)]:dark:hover:bg-red-600 dark:focus:ring-red-800']:
 						color === 'error' && variant === 'outlined',
 
-					['py-2 px-3 text-xs']: size === 'extra-small',
-					['py-2 px-3 text-sm']: size === 'small',
-					['py-2.5 px-5 text-sm']: size === 'base',
-					['py-3 px-5 text-base']: size === 'large',
-					['py-3.5 px-6 text-base']: size === 'extra-large',
+					['px-2.5 py-1.5 text-xs']: size === 'extra-small',
+					['px-3 py-2 text-sm leading-4']: size === 'small',
+					['px-4 py-2 text-sm']: size === 'base',
+					['px-4 py-2 text-base']: size === 'large',
+					['px-6 py-3 text-base']: size === 'extra-large',
+
+					['rounded-full']: round,
+					['rounded']: !round && size === 'extra-small',
+					['rounded-md']: !round && size !== 'extra-small',
 				}
 			)}
 			{...props}

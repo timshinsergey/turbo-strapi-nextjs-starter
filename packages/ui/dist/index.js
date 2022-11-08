@@ -142,7 +142,7 @@ var Spinner = (0, import_react3.memo)(({ svgClassName = "w-4 h-4", ariaLabelledb
       children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", {
         cx: "44",
         cy: "44",
-        r: "20.2",
+        r: "14",
         fill: "none"
       })
     })
@@ -184,6 +184,7 @@ var DefaultButton = (0, import_react5.forwardRef)(function DefaultButton2({
   variant = "base",
   size = "base",
   color = "primary",
+  round = false,
   ...props
 }, ref) {
   const Element = el || defaultElement;
@@ -191,10 +192,12 @@ var DefaultButton = (0, import_react5.forwardRef)(function DefaultButton2({
     ref,
     className: (0, import_classnames5.default)(
       className,
-      "grid grid-flow-col relative justify-center items-center rounded-lg font-bold gap-2 focus:ring-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25",
+      "inline-flex items-center border relative font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25",
       {
         ["text-white"]: variant === "filled",
-        ["border [&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white"]: variant === "outlined",
+        ["border-transparent"]: variant === "filled" || variant === "base",
+        ["shadow-sm"]: variant === "filled" || variant === "outlined",
+        ["[&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white"]: variant === "outlined",
         ["text-blue-700 [&:not(:disabled)]:hover:bg-blue-100"]: color === "primary" && variant === "base",
         ["bg-blue-700 [&:not(:disabled)]:hover:bg-blue-800 focus:ring-blue-300 [&:not(:disabled)]:dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"]: color === "primary" && variant === "filled",
         ["text-blue-700 border-blue-700 [&:not(:disabled)]:hover:bg-blue-800 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 [&:not(:disabled)]:dark:hover:bg-blue-600 dark:focus:ring-blue-800"]: color === "primary" && variant === "outlined",
@@ -210,11 +213,14 @@ var DefaultButton = (0, import_react5.forwardRef)(function DefaultButton2({
         ["text-red-700 [&:not(:disabled)]:hover:bg-red-100"]: color === "error" && variant === "base",
         ["bg-red-700 [&:not(:disabled)]:hover:bg-red-800 focus:ring-red-300 dark:bg-red-600 [&:not(:disabled)]:dark:hover:bg-red-700 dark:focus:ring-red-900"]: color === "error" && variant === "filled",
         ["text-red-700 border-red-700 [&:not(:disabled)]:hover:bg-red-800 focus:ring-red-300 dark:border-red-500 dark:text-red-500 [&:not(:disabled)]:dark:hover:bg-red-600 dark:focus:ring-red-800"]: color === "error" && variant === "outlined",
-        ["py-2 px-3 text-xs"]: size === "extra-small",
-        ["py-2 px-3 text-sm"]: size === "small",
-        ["py-2.5 px-5 text-sm"]: size === "base",
-        ["py-3 px-5 text-base"]: size === "large",
-        ["py-3.5 px-6 text-base"]: size === "extra-large"
+        ["px-2.5 py-1.5 text-xs"]: size === "extra-small",
+        ["px-3 py-2 text-sm leading-4"]: size === "small",
+        ["px-4 py-2 text-sm"]: size === "base",
+        ["px-4 py-2 text-base"]: size === "large",
+        ["px-6 py-3 text-base"]: size === "extra-large",
+        ["rounded-full"]: round,
+        ["rounded"]: !round && size === "extra-small",
+        ["rounded-md"]: !round && size !== "extra-small"
       }
     ),
     ...props
@@ -256,6 +262,7 @@ var IconButton = (0, import_react7.memo)(
       variant = "base",
       size = "base",
       color = "primary",
+      round = false,
       className,
       disabled,
       children,
@@ -269,10 +276,12 @@ var IconButton = (0, import_react7.memo)(
         type: "button",
         className: (0, import_classnames6.default)(
           className,
-          "grid relative rounded-lg focus:ring-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25",
+          "inline-flex items-center border focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-25",
           {
             ["text-white"]: variant === "filled",
-            ["border [&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white"]: variant === "outlined",
+            ["border-transparent"]: variant === "filled" || variant === "base",
+            ["shadow-sm"]: variant === "filled" || variant === "outlined",
+            ["[&:not(:disabled)]:hover:text-white [&:not(:disabled)]:dark:hover:text-white"]: variant === "outlined",
             ["text-blue-700 [&:not(:disabled)]:hover:bg-blue-100 "]: color === "primary" && variant === "base",
             ["bg-blue-700 [&:not(:disabled)]:hover:bg-blue-800 focus:ring-blue-300 [&:not(:disabled)]:dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"]: color === "primary" && variant === "filled",
             ["text-blue-700 border-blue-700 [&:not(:disabled)]:hover:bg-blue-800 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 [&:not(:disabled)]:dark:hover:bg-blue-600 dark:focus:ring-blue-800"]: color === "primary" && variant === "outlined",
@@ -288,13 +297,22 @@ var IconButton = (0, import_react7.memo)(
             ["text-red-700 [&:not(:disabled)]:hover:bg-red-100"]: color === "error" && variant === "base",
             ["bg-red-700 [&:not(:disabled)]:hover:bg-red-800 focus:ring-red-300 dark:bg-red-600 [&:not(:disabled)]:dark:hover:bg-red-700 dark:focus:ring-red-900"]: color === "error" && variant === "filled",
             ["text-red-700 border-red-700 [&:not(:disabled)]:hover:bg-red-800 focus:ring-red-300 dark:border-red-500 dark:text-red-500 [&:not(:disabled)]:dark:hover:bg-red-600 dark:focus:ring-red-900"]: color === "error" && variant === "outlined",
-            ["p-2"]: size === "small",
-            ["p-2.5"]: size === "base",
-            ["p-3"]: size === "large"
+            ["p-1"]: size === "extra-small",
+            ["p-1.5"]: size === "small",
+            ["p-2"]: size === "base" || size === "large",
+            ["p-3"]: size === "extra-large",
+            ["rounded-full"]: round,
+            ["rounded"]: !round && size === "extra-small",
+            ["rounded-md"]: !round && size !== "extra-small"
           }
         ),
         ...props,
-        children: loading ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Spinner, {}) : children
+        children: loading ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Spinner, {
+          svgClassName: (0, import_classnames6.default)({
+            ["h-5 w-5"]: size === "extra-small" || size === "small" || size === "base",
+            ["h-6 w-6"]: size === "large" || size === "extra-large"
+          })
+        }) : children
       });
     }
   )
