@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_items",
+  "info": {
+    "displayName": "item"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

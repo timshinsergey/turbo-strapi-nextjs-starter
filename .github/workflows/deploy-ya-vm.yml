@@ -39,10 +39,10 @@ jobs:
         with:
           yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
 
-      - name: Build, tag, and push front image to Yandex Cloud Container Registry
-        run: |
-          docker build -f apps/frontend/Dockerfile -t ${{ env.FRONT_CR_URL}}:${{ github.sha }} .
-          docker push ${{ env.FRONT_CR_URL}}:${{ github.sha }}
+      # - name: Build, tag, and push front image to Yandex Cloud Container Registry
+      #   run: |
+      #     docker build -f apps/frontend/Dockerfile -t ${{ env.FRONT_CR_URL}}:${{ github.sha }} .
+      #     docker push ${{ env.FRONT_CR_URL}}:${{ github.sha }}
 
       - name: Build, tag, and push backend image to Yandex Cloud Container Registry
         run: |

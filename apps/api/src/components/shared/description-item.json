@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_shared_description_items",
+  "info": {
+    "displayName": "descriptionItem"
+  },
+  "options": {},
+  "attributes": {
+    "term": {
+      "type": "string",
+      "required": true
+    },
+    "definition": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
