@@ -28,69 +28,69 @@ services:
       - traefik.http.routers.backend.tls.certresolver=myresolver
       - traefik.http.routers.backend.entrypoints=websecure
       - traefik.http.services.backend.loadbalancer.server.port=1337
-  front:
-    image: {{ env.FRONT_IMAGE_URL }}
-    container_name: front
-    environment:
-      ENV_VARIABLE: {{ env.ENV_VARIABLE }}
-      NEXT_PUBLIC_ENV_VARIABLE: {{ env.NEXT_PUBLIC_ENV_VARIABLE }}
-      ANALYZE: {{ env.ANALYZE }}
-      NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: {{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
-    restart: always
-    # for domain connection
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.front.rule=Host(`{{ env.FRONT_HOST }}`)
-      - traefik.http.routers.front.tls=true
-      - traefik.http.routers.front.tls.certresolver=myresolver
-      - traefik.http.routers.front.entrypoints=websecure
-      - traefik.http.services.front.loadbalancer.server.port=3000
-  traefik:
-    image: traefik:v2.9.4
-    container_name: traefik
-    command:
-      - --log.level=DEBUG
-      - --api=true
-      - --api.insecure=true
-      - --api.dashboard=true
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      # - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-      - --certificatesresolvers.myresolver.acme.httpchallenge=true
-      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.myresolver.acme.email=timshinsergey1@gmail.com
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
-    volumes:
-      - /letsencrypt:/letsencrypt
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      - traefik.enable=true
-      # Dashboard
-      - traefik.http.routers.traefik.rule=Host(`{{ env.TRAEFIK_HOST }}`)
-      - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=myresolver
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.traefik.service=api@internal
-      # global redirect to https
-      - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
-      - traefik.http.routers.http-catchall.entrypoints=web
-      - traefik.http.routers.http-catchall.middlewares=redirect-to-https
-      # middleware redirect
-      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-      - traefik.http.routers.traefik.middlewares=auth
-      # Note: all dollar signs in the hash need to be doubled for escaping.
-      # Passwords must be hashed using BCrypt.
-      - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
+  # front:
+  #   image: {{ env.FRONT_IMAGE_URL }}
+  #   container_name: front
+  #   environment:
+  #     ENV_VARIABLE: {{ env.ENV_VARIABLE }}
+  #     NEXT_PUBLIC_ENV_VARIABLE: {{ env.NEXT_PUBLIC_ENV_VARIABLE }}
+  #     ANALYZE: {{ env.ANALYZE }}
+  #     NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: {{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
+  #   restart: always
+  #   # for domain connection
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.front.rule=Host(`{{ env.FRONT_HOST }}`)
+  #     - traefik.http.routers.front.tls=true
+  #     - traefik.http.routers.front.tls.certresolver=myresolver
+  #     - traefik.http.routers.front.entrypoints=websecure
+  #     - traefik.http.services.front.loadbalancer.server.port=3000
+  # traefik:
+  #   image: traefik:v2.9.4
+  #   container_name: traefik
+  #   command:
+  #     - --log.level=DEBUG
+  #     - --api=true
+  #     - --api.insecure=true
+  #     - --api.dashboard=true
+  #     - --providers.docker=true
+  #     - --providers.docker.exposedbydefault=false
+  #     - --entrypoints.web.address=:80
+  #     - --entrypoints.websecure.address=:443
+  #     # - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+  #     - --certificatesresolvers.myresolver.acme.httpchallenge=true
+  #     - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+  #     - --certificatesresolvers.myresolver.acme.email=timshinsergey1@gmail.com
+  #     - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+  #   restart: always
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #     - 8080:8080
+  #   volumes:
+  #     - /letsencrypt:/letsencrypt
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   labels:
+  #     - traefik.enable=true
+  #     # Dashboard
+  #     - traefik.http.routers.traefik.rule=Host(`{{ env.TRAEFIK_HOST }}`)
+  #     - traefik.http.routers.traefik.tls=true
+  #     - traefik.http.routers.traefik.tls.certresolver=myresolver
+  #     - traefik.http.routers.traefik.entrypoints=websecure
+  #     - traefik.http.routers.traefik.service=api@internal
+  #     # global redirect to https
+  #     - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
+  #     - traefik.http.routers.http-catchall.entrypoints=web
+  #     - traefik.http.routers.http-catchall.middlewares=redirect-to-https
+  #     # middleware redirect
+  #     - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+  #     - traefik.http.routers.traefik.middlewares=auth
+  #     # Note: all dollar signs in the hash need to be doubled for escaping.
+  #     # Passwords must be hashed using BCrypt.
+  #     - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
 
 # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
-volumes:
-  letsencrypt:
+# volumes:
+#   letsencrypt:

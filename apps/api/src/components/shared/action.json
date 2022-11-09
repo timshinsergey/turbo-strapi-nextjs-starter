@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_actions",
+  "info": {
+    "displayName": "action"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "action": {
+      "type": "enumeration",
+      "enum": [
+        "callback"
+      ],
+      "default": "callback",
+      "required": true
+    }
+  }
+}
