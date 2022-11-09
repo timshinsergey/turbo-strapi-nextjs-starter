@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2022-11-09T10:01:51.765Z"
+    "x-generation-date": "2022-11-09T12:09:09.115Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -28,7 +28,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:1338/api",
+      "url": "http://localhost:1337/api",
       "description": "Development server"
     }
   ],
@@ -2768,7 +2768,8 @@
           "data": {
             "required": [
               "title",
-              "seo"
+              "seo",
+              "slug"
             ],
             "type": "object",
             "properties": {
@@ -2780,6 +2781,9 @@
               },
               "seo": {
                 "$ref": "#/components/schemas/SharedSeoComponent"
+              },
+              "slug": {
+                "type": "string"
               },
               "sitemap_exclude": {
                 "type": "boolean"
@@ -2805,6 +2809,9 @@
               },
               "seo": {
                 "$ref": "#/components/schemas/SharedSeoComponent"
+              },
+              "slug": {
+                "type": "string"
               },
               "createdAt": {
                 "type": "string",
@@ -3127,6 +3134,9 @@
               },
               "seo": {
                 "$ref": "#/components/schemas/SharedSeoComponent"
+              },
+              "slug": {
+                "type": "string"
               },
               "createdAt": {
                 "type": "string",
@@ -3483,6 +3493,9 @@
               "seo": {
                 "$ref": "#/components/schemas/SharedSeoComponent"
               },
+              "slug": {
+                "type": "string"
+              },
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -3804,6 +3817,9 @@
               },
               "seo": {
                 "$ref": "#/components/schemas/SharedSeoComponent"
+              },
+              "slug": {
+                "type": "string"
               },
               "createdAt": {
                 "type": "string",
@@ -4127,27 +4143,16 @@
         "properties": {
           "data": {
             "required": [
-              "url",
-              "copyright",
-              "projectName",
-              "logo"
+              "logo",
+              "footer"
             ],
             "type": "object",
             "properties": {
-              "url": {
-                "type": "string"
-              },
               "socialMedia": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/SharedLinkComponent"
                 }
-              },
-              "copyright": {
-                "type": "string"
-              },
-              "projectName": {
-                "type": "string"
               },
               "logo": {
                 "oneOf": [
@@ -4159,6 +4164,9 @@
                   }
                 ],
                 "example": "string or id"
+              },
+              "footer": {
+                "$ref": "#/components/schemas/GlobalFooterComponent"
               },
               "sitemap_exclude": {
                 "type": "boolean"
@@ -4176,20 +4184,11 @@
           "attributes": {
             "type": "object",
             "properties": {
-              "url": {
-                "type": "string"
-              },
               "socialMedia": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/SharedLinkComponent"
                 }
-              },
-              "copyright": {
-                "type": "string"
-              },
-              "projectName": {
-                "type": "string"
               },
               "logo": {
                 "type": "object",
@@ -4820,6 +4819,9 @@
                     }
                   }
                 }
+              },
+              "footer": {
+                "$ref": "#/components/schemas/GlobalFooterComponent"
               },
               "createdAt": {
                 "type": "string",
@@ -5130,20 +5132,11 @@
           "attributes": {
             "type": "object",
             "properties": {
-              "url": {
-                "type": "string"
-              },
               "socialMedia": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/SharedLinkComponent"
                 }
-              },
-              "copyright": {
-                "type": "string"
-              },
-              "projectName": {
-                "type": "string"
               },
               "logo": {
                 "type": "object",
@@ -5774,6 +5767,9 @@
                     }
                   }
                 }
+              },
+              "footer": {
+                "$ref": "#/components/schemas/GlobalFooterComponent"
               },
               "createdAt": {
                 "type": "string",
@@ -6117,20 +6113,11 @@
           "attributes": {
             "type": "object",
             "properties": {
-              "url": {
-                "type": "string"
-              },
               "socialMedia": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/SharedLinkComponent"
                 }
-              },
-              "copyright": {
-                "type": "string"
-              },
-              "projectName": {
-                "type": "string"
               },
               "logo": {
                 "type": "object",
@@ -6761,6 +6748,9 @@
                     }
                   }
                 }
+              },
+              "footer": {
+                "$ref": "#/components/schemas/GlobalFooterComponent"
               },
               "createdAt": {
                 "type": "string",
@@ -7071,20 +7061,11 @@
           "attributes": {
             "type": "object",
             "properties": {
-              "url": {
-                "type": "string"
-              },
               "socialMedia": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/SharedLinkComponent"
                 }
-              },
-              "copyright": {
-                "type": "string"
-              },
-              "projectName": {
-                "type": "string"
               },
               "logo": {
                 "type": "object",
@@ -7715,6 +7696,9 @@
                     }
                   }
                 }
+              },
+              "footer": {
+                "$ref": "#/components/schemas/GlobalFooterComponent"
               },
               "createdAt": {
                 "type": "string",
@@ -8046,6 +8030,17 @@
           },
           "isExternal": {
             "type": "boolean"
+          }
+        }
+      },
+      "GlobalFooterComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "copyright": {
+            "type": "string"
           }
         }
       },

@@ -28,6 +28,11 @@
       "component": "shared.seo",
       "required": true,
       "pluginOptions": {}
+    },
+    "slug": {
+      "type": "uid",
+      "default": "blog",
+      "required": true
     }
   }
 }
