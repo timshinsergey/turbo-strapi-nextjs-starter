@@ -3,22 +3,14 @@ import type { SharedLinkComponent } from '@shared/services/strapi/interfaces/com
 import { memo } from 'react'
 import Link from 'next/link'
 
-interface CustomLinkProps extends SharedLinkComponent {
+interface StrapiLinkProps extends SharedLinkComponent {
 	className?: string
 	onClick?: () => void
 	children?: ReactNode
 }
 
-const CustomLink = memo(
-	({
-		className,
-		isExternal,
-		target,
-		href,
-		label,
-		onClick,
-		children,
-	}: CustomLinkProps): JSX.Element => {
+const StrapiLink = memo(
+	({ className, isExternal, target, href, label, onClick, children }: StrapiLinkProps) => {
 		if (isExternal) {
 			return (
 				<a
@@ -45,7 +37,7 @@ const CustomLink = memo(
 	}
 )
 
-CustomLink.displayName = 'CustomLink'
+StrapiLink.displayName = 'StrapiLink'
 
-export { CustomLink }
-export type { CustomLinkProps }
+export { StrapiLink }
+export type { StrapiLinkProps }

@@ -17,7 +17,7 @@ interface SharedSeoComponent {
 	metaImage: {
 		data: StrapiImage
 	}
-	metaSocial?: SharedSeoMetaSocialComponent[]
+	metaSocial: SharedSeoMetaSocialComponent[]
 	keywords?: string
 	metaRobots?: string
 	structuredData?: any

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_logo_clouds_grids",
+  "info": {
+    "displayName": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "logos": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    }
+  }
+}

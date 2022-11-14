@@ -2,7 +2,7 @@ import { log } from 'logger'
 import Link from 'next/link'
 import { Alert, ButtonLink, Container, Icon, Spinner } from 'ui'
 
-export default function ButtonLinks() {
+const Page = () => {
 	log('Hey! This is Buttons.')
 	return (
 		<Container>
@@ -286,3 +286,5 @@ export default function ButtonLinks() {
 		</Container>
 	)
 }
+
+export default Page

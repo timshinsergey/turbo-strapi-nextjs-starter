@@ -1,4 +1,5 @@
 import type { StrapiDefaultTypeParams, StrapiPagination, StrapiParams } from '../common'
+import type { StrapiBlock } from '../components/blocks'
 import type { SharedSeoComponent } from '../components/shared'
 
 interface HomePageRequest {
@@ -12,6 +13,7 @@ interface HomePageListResponseDataItem {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		seo?: SharedSeoComponent
+		blocks?: StrapiBlock[]
 	}
 }
 
@@ -19,6 +21,7 @@ interface HomePageListResponseDataItemLocalized {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		seo?: SharedSeoComponent
+		blocks?: StrapiBlock[]
 	}
 }
 
@@ -33,6 +36,7 @@ interface HomePageResponseDataObject {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		seo?: SharedSeoComponent
+		blocks?: StrapiBlock[]
 	}
 }
 
@@ -40,6 +44,7 @@ interface HomePageResponseDataObjectLocalized {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		seo?: SharedSeoComponent
+		blocks?: StrapiBlock[]
 	}
 }
 

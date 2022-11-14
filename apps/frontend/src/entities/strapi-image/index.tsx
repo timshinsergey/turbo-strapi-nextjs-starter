@@ -2,7 +2,7 @@ import type { StrapiImage } from '@shared/services/strapi/interfaces/common'
 import { memo } from 'react'
 import Image from 'next/image'
 
-interface CustomImageProps {
+interface StrapiImgProps {
 	img: StrapiImage
 	className?: string
 	layout?: 'fixed' | 'fill' | 'intrinsic' | 'responsive'
@@ -29,7 +29,7 @@ const pickOutImage = (
 	return img.attributes
 }
 
-const CustomImage = memo(({ variant = 'default', img, layout, ...props }: CustomImageProps) => {
+const StrapiImg = memo(({ variant = 'default', img, layout, ...props }: StrapiImgProps) => {
 	const image = pickOutImage(variant, img)
 
 	switch (layout) {
@@ -51,7 +51,7 @@ const CustomImage = memo(({ variant = 'default', img, layout, ...props }: Custom
 	}
 })
 
-CustomImage.displayName = 'CustomImage'
+StrapiImg.displayName = 'StrapiImg'
 
-export { CustomImage }
-export type { CustomImageProps }
+export { StrapiImg }
+export type { StrapiImgProps }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "home-page",
     "pluralName": "home-pages",
-    "displayName": "HomePage"
+    "displayName": "HomePage",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,6 +16,14 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo",
+      "required": true
+    },
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "logo-clouds.grid",
+        "hero.simple-centered"
+      ],
       "required": true
     }
   }
