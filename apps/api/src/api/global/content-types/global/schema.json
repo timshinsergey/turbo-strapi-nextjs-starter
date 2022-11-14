@@ -31,6 +31,14 @@
       "repeatable": false,
       "component": "global.footer",
       "required": true
+    },
+    "favicon": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
     }
   }
 }
