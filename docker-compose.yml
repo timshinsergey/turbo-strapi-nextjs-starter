@@ -21,7 +21,7 @@ services:
       AWS_BUCKET: {{ env.AWS_BUCKET }}
       STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE: {{ env.STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE }}
       NODE_ENV: {{ env.NODE_ENV }}
-    restart: always
+    restart: unless-stopped
     # for domain connection
     labels:
       - traefik.enable=true
@@ -64,6 +64,8 @@ services:
       ANALYZE: {{ env.ANALYZE }}
       NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: {{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
     restart: always
+    networks:
+      - strapi
     # for domain connection
     labels:
       - traefik.enable=true
@@ -90,6 +92,8 @@ services:
       - --certificatesresolvers.myresolver.acme.email={{ env.CERTS_EMAIL }}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     restart: always
+    networks:
+      - strapi
     ports:
       - 80:80
       - 443:443
@@ -121,6 +125,7 @@ services:
 # with each other, by using their container name as a hostname
 volumes:
   letsencrypt:
+  strapi-data:
 
 networks:
   strapi:
