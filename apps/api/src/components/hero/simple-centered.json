@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_hero_simple_centereds",
+  "info": {
+    "displayName": "simpleCentered",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "primaryLink": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.link"
+    },
+    "secondaryLink": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.link"
+    },
+    "topLink": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.link"
+    },
+    "topText": {
+      "type": "string"
+    }
+  }
+}

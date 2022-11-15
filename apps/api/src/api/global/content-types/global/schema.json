@@ -12,23 +12,11 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "url": {
-      "type": "string",
-      "required": true
-    },
     "socialMedia": {
       "type": "component",
       "repeatable": true,
       "component": "shared.link",
       "required": false
-    },
-    "copyright": {
-      "type": "text",
-      "required": true
-    },
-    "projectName": {
-      "type": "string",
-      "required": true
     },
     "logo": {
       "type": "media",
@@ -37,6 +25,20 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "footer": {
+      "type": "component",
+      "repeatable": false,
+      "component": "global.footer",
+      "required": true
+    },
+    "favicon": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
     }
   }
 }
