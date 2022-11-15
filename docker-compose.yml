@@ -64,6 +64,8 @@ services:
       ANALYZE: {{ env.ANALYZE }}
       NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: {{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
     restart: always
+    networks:
+      - strapi
     # for domain connection
     labels:
       - traefik.enable=true
@@ -90,6 +92,8 @@ services:
       - --certificatesresolvers.myresolver.acme.email={{ env.CERTS_EMAIL }}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     restart: always
+    networks:
+      - strapi
     ports:
       - 80:80
       - 443:443
