@@ -21,7 +21,7 @@ services:
       AWS_BUCKET: {{ env.AWS_BUCKET }}
       STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE: {{ env.STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE }}
       NODE_ENV: {{ env.NODE_ENV }}
-    restart: always
+    restart: unless-stopped
     # for domain connection
     labels:
       - traefik.enable=true
@@ -121,6 +121,7 @@ services:
 # with each other, by using their container name as a hostname
 volumes:
   letsencrypt:
+  strapi-data:
 
 networks:
   strapi:

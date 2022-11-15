@@ -85,6 +85,7 @@ jobs:
           AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
+          CERTS_EMAIL: ${{ secrets.CERTS_EMAIL }}
         with:
           yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
           folder-id: b1gke16sajj09en730l2
