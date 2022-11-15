@@ -87,6 +87,8 @@ services:
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --certificatesResolvers.myresolver.acme.tlschallenge=true
+      # Note that Let's Encrypt API has rate limiting.
+      # Use Let's Encrypt staging server with the caServer configuration option when experimenting to avoid hitting this limit too fast.
       - --certificatesresolvers.myresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       # - --certificatesresolvers.staging.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.myresolver.acme.email={{ env.CERTS_EMAIL }}
