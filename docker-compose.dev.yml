@@ -31,6 +31,8 @@ services:
       - strapi
     env_file: ./apps/api/.env
     volumes:
+      - ./yarn.lock:/app/yarn.lock
+      - ./package.json:/app/package.json
       - ./apps/api/config:/app/apps/api/config
       - ./apps/api/src:/app/apps/api/src
       - ./apps/api/package.json:/app/apps/api/package.json
@@ -70,6 +72,8 @@ services:
       - traefik.http.routers.frontend.rule=Host(`localhost`)
       - traefik.http.services.frontend.loadbalancer.server.port=3000
     volumes:
+      - ./yarn.lock:/app/yarn.lock
+      - ./package.json:/app/package.json
       - ./apps/frontend/src:/app/apps/frontend/src
       - ./apps/frontend/package.json:/app/apps/frontend/package.json
       - ./apps/frontend/.env:/app/apps/frontend/.env
