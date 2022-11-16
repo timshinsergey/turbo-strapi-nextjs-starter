@@ -6,6 +6,10 @@ services:
     container_name: traefik
     networks:
       - strapi
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 80:80
     command:
       - --api.insecure=true
       - --api.dashboard=true
@@ -13,10 +17,6 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
-    ports:
-      - 80:80
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
@@ -29,7 +29,6 @@ services:
     restart: unless-stopped
     networks:
       - strapi
-    env_file: ./apps/api/.env
     volumes:
       - ./yarn.lock:/app/yarn.lock
       - ./package.json:/app/package.json
@@ -38,6 +37,7 @@ services:
       - ./apps/api/package.json:/app/apps/api/package.json
       - ./apps/api/.env:/app/apps/api/.env
       - ./apps/api/public/uploads:/app/apps/api/public/uploads
+    env_file: ./apps/api/.env
     labels:
       - traefik.enable=true
       - traefik.http.routers.strapi.rule=Host(`api.localhost`)
@@ -49,16 +49,16 @@ services:
     restart: unless-stopped
     networks:
       - strapi
-    command:
-      - --default-authentication-plugin=mysql_native_password
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-    env_file: ./apps/api/.env
     volumes:
       - strapi-data:/var/lib/mysql
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
     ports:
       - 3306:3306
+    env_file: ./apps/api/.env
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
   frontend:
     container_name: frontend-dev
     build:
@@ -78,10 +78,9 @@ services:
       - ./apps/frontend/package.json:/app/apps/frontend/package.json
       - ./apps/frontend/.env:/app/apps/frontend/.env
       - ./apps/frontend/public:/app/apps/frontend/public
-    # Add more containers below (nginx, postgres, etc.)
-    # Define a network, which allows containers to communicate
-    # with each other, by using their container name as a hostname
-
+# Add more containers below (nginx, postgres, etc.)
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
 volumes:
   strapi-data:
 
