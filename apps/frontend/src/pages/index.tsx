@@ -10,7 +10,6 @@ interface PageProps {
 
 const Page = ({ page }: PageProps) => {
 	log('Hey! This is Home.')
-	console.log('page', page)
 	return (
 		<div>
 			<div className='container'>

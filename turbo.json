@@ -20,5 +20,5 @@
       "cache": false
     }
   },
-  "globalEnv": ["STRAPI_API_URL", "STRAPI_API_TOKEN", "NEXT_PUBLIC_URL"]
+  "globalEnv": ["STRAPI_URL", "STRAPI_API_URL", "STRAPI_API_TOKEN", "NEXT_PUBLIC_URL"]
 }
