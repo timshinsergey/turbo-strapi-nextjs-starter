@@ -11,7 +11,7 @@ interface PageProps {
 const Page = ({ page }: PageProps) => {
 	log('Hey! This is Home.')
 	return (
-		<div>
+		<main>
 			<div className='container'>
 				<h1>Store</h1>
 				<div className='grid grid-flow-col justify-start gap-3'>
@@ -27,7 +27,7 @@ const Page = ({ page }: PageProps) => {
 				</div>
 			</div>
 			<BlockManager blocks={page.attributes.blocks} />
-		</div>
+		</main>
 	)
 }
 
