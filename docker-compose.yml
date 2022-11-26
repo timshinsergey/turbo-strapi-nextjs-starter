@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 
 services:
   strapi:
@@ -38,7 +38,6 @@ services:
     image: mysql:8
     container_name: strapiDB
     restart: unless-stopped
-    platform: linux/amd64 #for platform error on Apple M1 chips
     networks:
       - strapi
     volumes:
@@ -131,5 +130,4 @@ volumes:
 
 networks:
   strapi:
-    name: Strapi
     driver: bridge

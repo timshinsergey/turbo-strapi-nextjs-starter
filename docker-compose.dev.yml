@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 
 services:
   traefik:
@@ -45,7 +45,6 @@ services:
   strapiDB:
     image: mysql:8
     container_name: strapiDB
-    platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
     networks:
       - strapi
@@ -87,5 +86,4 @@ volumes:
 
 networks:
   strapi:
-    name: Strapi
     driver: bridge
