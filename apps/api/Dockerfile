@@ -5,6 +5,8 @@ RUN apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips
 RUN apk update
 # Set working directory
 WORKDIR /app
+ARG NODE_ENV production
+ENV NODE_ENV=${NODE_ENV}
 RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=api --docker
@@ -13,6 +15,8 @@ RUN turbo prune --scope=api --docker
 FROM node:16-alpine AS installer
 RUN apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev libc6-compat
 RUN apk update
+ARG NODE_ENV production
+ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app
 
 # First install dependencies (as they change less often)
@@ -29,6 +33,8 @@ RUN yarn turbo run build --filter=api...
 FROM node:16-alpine AS runner
 RUN apk add --no-cache vips-dev
 WORKDIR /app
+ARG NODE_ENV production
+ENV NODE_ENV=${NODE_ENV}
 
 COPY --from=installer /app .
 

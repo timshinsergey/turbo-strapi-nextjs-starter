@@ -1,9 +1,14 @@
-version: '3.9'
+version: '3.8'
 
 services:
   strapi:
-    container_name: strapi
     image: {{ env.BACKEND_IMAGE_URL }}
+    container_name: strapi
+    restart: unless-stopped
+    networks:
+      - strapi
+    depends_on:
+      - strapiDB
     environment:
       DATABASE_CLIENT: {{ env.DATABASE_CLIENT }}
       DATABASE_HOST: strapiDB
@@ -21,55 +26,49 @@ services:
       AWS_BUCKET: {{ env.AWS_BUCKET }}
       STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE: {{ env.STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE }}
       NODE_ENV: {{ env.NODE_ENV }}
-    restart: unless-stopped
     # for domain connection
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`{{ env.BACKEND_HOST }}`)
+      - traefik.http.routers.backend.rule=Host(`api.{{ env.DOMAIN }}`)
       - traefik.http.routers.backend.tls=true
       - traefik.http.routers.backend.tls.certresolver=myresolver
       - traefik.http.routers.backend.entrypoints=websecure
       - traefik.http.services.backend.loadbalancer.server.port=1337
-    networks:
-      - strapi
-    depends_on:
-      - strapiDB
   strapiDB:
     image: mysql:8
     container_name: strapiDB
-    platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
-    command:
-      - --default-authentication-plugin=mysql_native_password
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-    environment:
-      MYSQL_USER: {{ env.DATABASE_USERNAME }}
-      MYSQL_ROOT_PASSWORD: {{ env.DATABASE_PASSWORD }}
-      MYSQL_PASSWORD: {{ env.DATABASE_PASSWORD }}
-      MYSQL_DATABASE: {{ env.DATABASE_NAME }}
+    networks:
+      - strapi
     volumes:
       - strapi-data:/var/lib/mysql
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
     ports:
       - 3306:3306
-    networks:
-      - strapi
+    environment:
+      MYSQL_USER: {{ env.DATABASE_USERNAME }}
+      MYSQL_ROOT_PASSWORD: {{ env.DATABASE_PASSWORD }}
+      MYSQL_PASSWORD: {{ env.DATABASE_PASSWORD }}
+      MYSQL_DATABASE: {{ env.DATABASE_NAME }}
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
   front:
     image: {{ env.FRONT_IMAGE_URL }}
     container_name: front
+    restart: unless-stopped
+    networks:
+      - strapi
     environment:
       ENV_VARIABLE: {{ env.ENV_VARIABLE }}
       NEXT_PUBLIC_ENV_VARIABLE: {{ env.NEXT_PUBLIC_ENV_VARIABLE }}
       ANALYZE: {{ env.ANALYZE }}
       NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: {{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
-    restart: always
-    networks:
-      - strapi
     # for domain connection
     labels:
       - traefik.enable=true
-      - traefik.http.routers.front.rule=Host(`{{ env.FRONT_HOST }}`)
+      - traefik.http.routers.front.rule=Host(`{{ env.domain }}`)
       - traefik.http.routers.front.tls=true
       - traefik.http.routers.front.tls.certresolver=myresolver
       - traefik.http.routers.front.entrypoints=websecure
@@ -77,6 +76,16 @@ services:
   traefik:
     image: traefik:v2.9.4
     container_name: traefik
+    restart: unless-stopped
+    networks:
+      - strapi
+    volumes:
+      - /letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
     command:
       - --log.level=DEBUG
       - --api=true
@@ -93,34 +102,38 @@ services:
       # - --certificatesresolvers.staging.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.myresolver.acme.email={{ env.CERTS_EMAIL }}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
-    restart: always
-    networks:
-      - strapi
-    ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
-    volumes:
-      - /letsencrypt:/letsencrypt
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
+      # Enable
       - traefik.enable=true
-      # Dashboard
-      - traefik.http.routers.traefik.rule=Host(`{{ env.TRAEFIK_HOST }}`)
-      - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=myresolver
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.traefik.service=api@internal
-      # global redirect to https
+      # Global http-->https
       - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
       - traefik.http.routers.http-catchall.entrypoints=web
       - traefik.http.routers.http-catchall.middlewares=redirect-to-https
-      # middleware redirect
+      # Global wwwhttps-->https
+      - traefik.http.routers.wwwsecure-catchall.rule=hostregexp(`{host:(www\\.).+}`)
+      - traefik.http.routers.wwwsecure-catchall.entrypoints=websecure
+      - traefik.http.routers.wwwsecure-catchall.tls=true
+      - traefik.http.routers.wwwsecure-catchall.middlewares=redirect-to-https
+      # middleware: http(s)://(www.) to  https://
+      - traefik.http.middlewares.redirect-to-https.redirectregex.regex=^(?:http|https)://(?:www\\.)?(.*)
+      - traefik.http.middlewares.redirect-to-https.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.redirect-to-https.redirectregex.permanent=true
+      # API
+      - traefik.http.routers.traefik.rule=Host(`traefik.{{ env.DOMAIN }}`)
+      - traefik.http.routers.traefik.entrypoints=websecure
+      # Services - API
+      - traefik.http.routers.traefik.service=api@internal
+      # Middlewares
       - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
       - traefik.http.routers.traefik.middlewares=auth
       # Note: all dollar signs in the hash need to be doubled for escaping.
       # Passwords must be hashed using BCrypt.
       - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
+      # Wildcard cert
+      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.tls.certresolver=myresolver
+      - traefik.http.routers.api.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.api.tls.domains[0].sans=*.${DOMAIN}
 
 # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate
@@ -131,5 +144,4 @@ volumes:
 
 networks:
   strapi:
-    name: Strapi
     driver: bridge
