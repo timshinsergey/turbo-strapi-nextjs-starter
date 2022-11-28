@@ -68,7 +68,7 @@ services:
     # for domain connection
     labels:
       - traefik.enable=true
-      - traefik.http.routers.front.rule=Host(`{{ env.domain }}`)
+      - traefik.http.routers.front.rule=Host(`{{ env.DOMAIN }}`)
       - traefik.http.routers.front.tls=true
       - traefik.http.routers.front.tls.certresolver=myresolver
       - traefik.http.routers.front.entrypoints=websecure
@@ -132,8 +132,8 @@ services:
       # Wildcard cert
       - traefik.http.routers.traefik.tls=true
       - traefik.http.routers.traefik.tls.certresolver=myresolver
-      - traefik.http.routers.api.tls.domains[0].main=${DOMAIN}
-      - traefik.http.routers.api.tls.domains[0].sans=*.${DOMAIN}
+      - traefik.http.routers.api.tls.domains[0].main={{ env.DOMAIN }}
+      - traefik.http.routers.api.tls.domains[0].sans=*.{{ env.DOMAIN }}
 
 # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate
