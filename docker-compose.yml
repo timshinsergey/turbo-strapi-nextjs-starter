@@ -29,7 +29,7 @@ services:
     # for domain connection
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`{{ env.BACKEND_HOST }}`)
+      - traefik.http.routers.backend.rule=Host(`api.{{ env.DOMAIN }}`)
       - traefik.http.routers.backend.tls=true
       - traefik.http.routers.backend.tls.certresolver=myresolver
       - traefik.http.routers.backend.entrypoints=websecure
@@ -68,7 +68,7 @@ services:
     # for domain connection
     labels:
       - traefik.enable=true
-      - traefik.http.routers.front.rule=Host(`{{ env.FRONT_HOST }}`)
+      - traefik.http.routers.front.rule=Host(`{{ env.domain }}`)
       - traefik.http.routers.front.tls=true
       - traefik.http.routers.front.tls.certresolver=myresolver
       - traefik.http.routers.front.entrypoints=websecure
@@ -103,23 +103,37 @@ services:
       - --certificatesresolvers.myresolver.acme.email={{ env.CERTS_EMAIL }}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     labels:
+      # Enable
       - traefik.enable=true
-      # Dashboard
-      - traefik.http.routers.traefik.rule=Host(`{{ env.TRAEFIK_HOST }}`)
-      - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=myresolver
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.traefik.service=api@internal
-      # global redirect to https
+      # Global http-->https
       - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
       - traefik.http.routers.http-catchall.entrypoints=web
       - traefik.http.routers.http-catchall.middlewares=redirect-to-https
-      # middleware redirect
+      # Global wwwhttps-->https
+      - traefik.http.routers.wwwsecure-catchall.rule=hostregexp(`{host:(www\\.).+}`)
+      - traefik.http.routers.wwwsecure-catchall.entrypoints=websecure
+      - traefik.http.routers.wwwsecure-catchall.tls=true
+      - traefik.http.routers.wwwsecure-catchall.middlewares=redirect-to-https
+      # middleware: http(s)://(www.) to  https://
+      - traefik.http.middlewares.redirect-to-https.redirectregex.regex=^(?:http|https)://(?:www\\.)?(.*)
+      - traefik.http.middlewares.redirect-to-https.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.redirect-to-https.redirectregex.permanent=true
+      # API
+      - traefik.http.routers.traefik.rule=Host(`traefik.{{ env.DOMAIN }}`)
+      - traefik.http.routers.traefik.entrypoints=websecure
+      # Services - API
+      - traefik.http.routers.traefik.service=api@internal
+      # Middlewares
       - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
       - traefik.http.routers.traefik.middlewares=auth
       # Note: all dollar signs in the hash need to be doubled for escaping.
       # Passwords must be hashed using BCrypt.
       - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
+      # Wildcard cert
+      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.tls.certresolver=myresolver
+      - traefik.http.routers.api.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.api.tls.domains[0].sans=*.${DOMAIN}
 
 # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate

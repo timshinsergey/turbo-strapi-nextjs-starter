@@ -67,9 +67,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           TRAEFIK_DASHBOARD_LOGIN: ${{ secrets.TRAEFIK_DASHBOARD_LOGIN }}
           TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.TRAEFIK_DASHBOARD_PASSWORD }}
-          BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
-          FRONT_HOST: ${{ secrets.FRONT_HOST }}
-          TRAEFIK_HOST: ${{ secrets.TRAEFIK_HOST }}
+          DOMAIN: ${{ secrets.DOMAIN }}
           APP_KEYS: ${{ secrets.APP_KEYS }}
           API_TOKEN_SALT: ${{ secrets.API_TOKEN_SALT }}
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
