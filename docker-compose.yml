@@ -30,6 +30,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.strapi.rule: Host(`api.{{ env.DOMAIN }}`)
+      traefik.http.routers.strapi.tls.certresolver: le
       traefik.http.services.strapi.loadbalancer.server.port: 1337
   strapiDB:
     image: mysql:8
@@ -66,6 +67,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.frontend.rule: Host(`{{ env.DOMAIN }}`)
+      traefik.http.routers.frontend.tls.certresolver: le
       traefik.http.services.frontend.loadbalancer.server.port: 3000
   traefik:
     image: traefik:v2.9.4
@@ -85,14 +87,13 @@ services:
       - --accesslog.format=json
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.http.tls.certResolver=le
       - --entrypoints.websecure.http.tls=true
       # ports
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       # redirect http to https
-      - --entrypoints.web.http.redirections.entryPoint.to=websecure
-      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
       # let's encrypt certificates
       - --certificatesresolvers.le.acme.httpchallenge=true
       - --certificatesresolvers.le.acme.email={{ env.CERTS_EMAIL }}
@@ -101,6 +102,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.dashboard.rule: Host(`traefik.{{ env.DOMAIN }}`)
+      traefik.http.routers.dashboard.tls.certresolver: le
       traefik.http.routers.dashboard.service: api@internal
       traefik.http.routers.dashboard.middlewares: auth
       # Note: all dollar signs in the hash need to be doubled for escaping.

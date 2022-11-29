@@ -18,14 +18,13 @@ services:
       - --accesslog.format=json
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.http.tls.certResolver=le
       - --entrypoints.websecure.http.tls=true
       # ports
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       # redirect http to https
-      - --entrypoints.web.http.redirections.entryPoint.to=websecure
-      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web.http.redirections.entrypoint.permanent=true
       # let's encrypt certificates
       - --certificatesresolvers.le.acme.httpchallenge=true
@@ -34,16 +33,9 @@ services:
       - --certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
     labels:
       traefik.enable: true
-      # global redirect to https
-      traefik.http.routers.http-catchall.rule: hostregexp(`{host:.+}`)
-      traefik.http.routers.http-catchall.entrypoints: web
-      traefik.http.routers.http-catchall.middlewares: redirect-to-https
-      traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
       # dashboard
       traefik.http.routers.traefik.rule: Host(`traefik.localhost`)
-      traefik.http.routers.traefik.tls: true
       traefik.http.routers.traefik.tls.certresolver: le
-      traefik.http.routers.traefik.entrypoints: websecure
       traefik.http.routers.traefik.service: api@internal
       traefik.http.routers.traefik.middlewares: auth
       # credentials are test/test
@@ -67,10 +59,8 @@ services:
     env_file: ./apps/api/.env
     labels:
       traefik.enable: true
-      traefik.http.routers.strapi.tls: true
-      traefik.http.routers.strapi.tls.certresolver: le
-      traefik.http.routers.strapi.entrypoints: websecure
       traefik.http.routers.strapi.rule: Host(`api.localhost`)
+      traefik.http.routers.strapi.tls.certresolver: le
       traefik.http.services.strapi.loadbalancer.server.port: 1337
   strapiDB:
     image: mysql:8
@@ -98,10 +88,8 @@ services:
       - strapi
     labels:
       traefik.enable: true
-      traefik.http.routers.frontend.tls: true
-      traefik.http.routers.frontend.tls.certresolver: le
-      traefik.http.routers.frontend.entrypoints: websecure
       traefik.http.routers.frontend.rule: Host(`localhost`)
+      traefik.http.routers.frontend.tls.certresolver: le
       traefik.http.services.frontend.loadbalancer.server.port: 3000
     volumes:
       - ./yarn.lock:/app/yarn.lock
