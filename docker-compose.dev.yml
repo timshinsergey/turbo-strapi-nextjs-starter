@@ -8,19 +8,45 @@ services:
       - strapi
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /letsencrypt:/letsencrypt
     ports:
       - 80:80
+      - 443:443
     command:
-      - --api.insecure=true
       - --api.dashboard=true
-      - --api.debug=true
+      - --log.level=warning
+      - --accesslog.format=json
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
+      - --certificatesresolvers.le.acme.email=test@example.com
+      - --certificatesresolvers.le.acme.storage=/acme/acme.json
+      - --certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
       - --entrypoints.web.address=:80
+      - --entrypoints.web.http.tls.certResolver=le
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls=true
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
-      - traefik.http.routers.traefik.service=api@internal
+      traefik.enable: true
+      traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
+      traefik.http.routers.unmatchedwww.service: noop@internal
+      traefik.http.routers.unmatchedwww.priority: 2
+
+      traefik.http.routers.matchlast.rule: PathPrefix(`/`)
+      traefik.http.routers.matchlast.priority: 1
+      traefik.http.routers.matchlast.middlewares: removewww
+
+      traefik.http.middlewares.removewww.redirectregex.regex: ^https://(?:www\.)?(.*)
+      traefik.http.middlewares.removewww.redirectregex.replacement: https://www.$${1}
+
+      traefik.http.routers.dashboard.rule: Host(`www.traefik.localhost`)
+      "traefik.http.routers.dashboard.tls.domains[0].main": traefik.localhost
+      "traefik.http.routers.dashboard.tls.domains[0].sans": www.traefik.localhost
+      traefik.http.routers.dashboard.service: api@internal
+      traefik.http.routers.dashboard.middlewares: auth
+      # credentials are test/test
+      traefik.http.middlewares.auth.basicauth.users: test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/
   strapi:
     container_name: strapi-dev
     build:
@@ -39,9 +65,11 @@ services:
       - ./apps/api/public/uploads:/app/apps/api/public/uploads
     env_file: ./apps/api/.env
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.strapi.rule=Host(`api.localhost`)
-      - traefik.http.services.strapi.loadbalancer.server.port=1337
+      traefik.enable: true
+      traefik.http.routers.strapi.rule: Host(`www.api.localhost`)
+      "traefik.http.routers.strapi.tls.domains[0].main": api.localhost
+      "traefik.http.routers.strapi.tls.domains[0].sans": www.api.localhost
+      traefik.http.services.strapi.loadbalancer.server.port: 1337
   strapiDB:
     image: mysql:8
     container_name: strapiDB
@@ -67,9 +95,11 @@ services:
     networks:
       - strapi
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.frontend.rule=Host(`localhost`)
-      - traefik.http.services.frontend.loadbalancer.server.port=3000
+      traefik.enable: true
+      traefik.http.routers.frontend.rule: Host(`www.localhost`)
+      "traefik.http.routers.frontend.tls.domains[0].main": www.localhost
+      "traefik.http.routers.frontend.tls.domains[0].sans": localhost
+      traefik.http.services.frontend.loadbalancer.server.port: 3000
     volumes:
       - ./yarn.lock:/app/yarn.lock
       - ./package.json:/app/package.json
@@ -81,6 +111,7 @@ services:
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
 volumes:
+  letsencrypt:
   strapi-data:
 
 
