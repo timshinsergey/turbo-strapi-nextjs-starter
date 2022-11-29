@@ -28,10 +28,14 @@ services:
       NODE_ENV: {{ env.NODE_ENV }}
     # for domain connection
     labels:
-      traefik.enable: true
-      traefik.http.routers.strapi.rule: Host(`api.{{ env.DOMAIN }}`)
-      traefik.http.routers.strapi.tls.certresolver: le
-      traefik.http.services.strapi.loadbalancer.server.port: 1337
+      - "traefik.enable=true"
+      - "traefik.http.routers.strapi.rule=Host(`api.{{ env.DOMAIN }}`)"
+      - "traefik.http.routers.strapi.tls.certresolver=le"
+      - "traefik.http.routers.strapi.entrypoints=websecure"
+      - "traefik.http.routers.strapi.tls=true"
+      - "traefik.http.routers.strapi.tls.domains[0].main=api.{{ env.DOMAIN }}"
+      - "traefik.http.routers.strapi.tls.domains[0].sans=www.api.{{ env.DOMAIN }}"
+      - "traefik.http.services.strapi.loadbalancer.server.port=1337"
   strapiDB:
     image: mysql:8
     container_name: strapiDB
@@ -65,10 +69,14 @@ services:
       NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: {{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
     # for domain connection
     labels:
-      traefik.enable: true
-      traefik.http.routers.frontend.rule: Host(`{{ env.DOMAIN }}`)
-      traefik.http.routers.frontend.tls.certresolver: le
-      traefik.http.services.frontend.loadbalancer.server.port: 3000
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`{{ env.DOMAIN }}`)"
+      - "traefik.http.routers.frontend.tls.certresolver=le"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls=true"
+      - "traefik.http.routers.frontend.tls.domains[0].main={{ env.DOMAIN }}"
+      - "traefik.http.routers.frontend.tls.domains[0].sans=www.{{ env.DOMAIN }}"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
   traefik:
     image: traefik:v2.9.4
     container_name: traefik
@@ -82,32 +90,42 @@ services:
       - 80:80
       - 443:443
     command:
-      - --api.dashboard=true
-      - --log.level=warning
-      - --accesslog.format=json
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.websecure.http.tls=true
+      - "--api.dashboard=true"
+      - "--log.level=warning"
+      - "--accesslog.format=json"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.http.tls=true"
       # ports
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
       # redirect http to https
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       # let's encrypt certificates
-      - --certificatesresolvers.le.acme.httpchallenge=true
-      - --certificatesresolvers.le.acme.email={{ env.CERTS_EMAIL }}
-      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
-      - --certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.email={{ env.CERTS_EMAIL }}"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
     labels:
-      traefik.enable: true
-      traefik.http.routers.dashboard.rule: Host(`traefik.{{ env.DOMAIN }}`)
-      traefik.http.routers.dashboard.tls.certresolver: le
-      traefik.http.routers.dashboard.service: api@internal
-      traefik.http.routers.dashboard.middlewares: auth
+      - "traefik.enable=true"
+      - "traefik.http.routers.wwwsecure-catchall.rule=hostregexp(`{host:(www\\.).+}`)"
+      - "traefik.http.routers.wwwsecure-catchall.middlewares=wwwtohttps"
+      - "traefik.http.routers.wwwsecure-catchall.entrypoints=websecure"
+      - "traefik.http.routers.wwwsecure-catchall.tls=true"
+      - "traefik.http.middlewares.wwwtohttps.redirectregex.regex=^https?://(?:www\\.)?(.+)"
+      - "traefik.http.middlewares.wwwtohttps.redirectregex.replacement=https://$${1}"
+      # dashboard
+      - "traefik.http.routers.traefik.rule=Host(`traefik.{{ env.DOMAIN }}`)"
+      - "traefik.http.routers.traefik.tls.certresolver=le"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.routers.traefik.tls.domains[0].main=traefik.{{ env.DOMAIN }}"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=www.traefik.{{ env.DOMAIN }}"
       # Note: all dollar signs in the hash need to be doubled for escaping.
       # Passwords must be hashed using BCrypt.
-      traefik.http.middlewares.auth.basicauth.users: '{{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}'
+      - "traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}"
 
 # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate
