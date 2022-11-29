@@ -29,9 +29,7 @@ services:
     # for domain connection
     labels:
       traefik.enable: true
-      traefik.http.routers.strapi.rule: Host(`www.api.{{ env.DOMAIN }}`)
-      "traefik.http.routers.strapi.tls.domains[0].main": api.{{ env.DOMAIN }}
-      "traefik.http.routers.strapi.tls.domains[0].sans": www.api.{{ env.DOMAIN }}
+      traefik.http.routers.strapi.rule: Host(`api.{{ env.DOMAIN }}`)
       traefik.http.services.strapi.loadbalancer.server.port: 1337
   strapiDB:
     image: mysql:8
@@ -67,9 +65,7 @@ services:
     # for domain connection
     labels:
       traefik.enable: true
-      traefik.http.routers.frontend.rule: Host(`www.{{ env.DOMAIN }}`)
-      "traefik.http.routers.frontend.tls.domains[0].main": www.{{ env.DOMAIN }}
-      "traefik.http.routers.frontend.tls.domains[0].sans": {{ env.DOMAIN }}
+      traefik.http.routers.frontend.rule: Host(`{{ env.DOMAIN }}`)
       traefik.http.services.frontend.loadbalancer.server.port: 3000
   traefik:
     image: traefik:v2.9.4
@@ -104,17 +100,7 @@ services:
       - --certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
     labels:
       traefik.enable: true
-      traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
-      traefik.http.routers.unmatchedwww.service: noop@internal
-      traefik.http.routers.unmatchedwww.priority: 2
-      traefik.http.routers.matchlast.rule: PathPrefix(`/`)
-      traefik.http.routers.matchlast.priority: 1
-      traefik.http.routers.matchlast.middlewares: addwww
-      traefik.http.middlewares.addwww.redirectregex.regex: ^https://(?:www\.)?(.*)
-      traefik.http.middlewares.addwww.redirectregex.replacement: https://www.$${1}
-      traefik.http.routers.dashboard.rule: Host(`www.traefik.{{ env.DOMAIN }}`)
-      "traefik.http.routers.dashboard.tls.domains[0].main": traefik.localhost
-      "traefik.http.routers.dashboard.tls.domains[0].sans": www.traefik.localhost
+      traefik.http.routers.dashboard.rule: Host(`traefik.{{ env.DOMAIN }}`)
       traefik.http.routers.dashboard.service: api@internal
       traefik.http.routers.dashboard.middlewares: auth
       # Note: all dollar signs in the hash need to be doubled for escaping.
