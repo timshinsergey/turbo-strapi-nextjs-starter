@@ -28,11 +28,11 @@ services:
       NODE_ENV: {{ env.NODE_ENV }}
     # for domain connection
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`api.{{ env.DOMAIN }}`)
-      - traefik.http.services.backend.loadbalancer.server.port=1337
-      - traefik.http.routers.backend.tls.domains[0].main=api.{{ env.DOMAIN }}
-      - traefik.http.routers.backend.tls.domains[0].sans=www.api.{{ env.DOMAIN }}
+      traefik.enable: true
+      traefik.http.routers.strapi.rule: Host(`www.api.{{ env.DOMAIN }}`)
+      "traefik.http.routers.strapi.tls.domains[0].main": api.{{ env.DOMAIN }}
+      "traefik.http.routers.strapi.tls.domains[0].sans": www.api.{{ env.DOMAIN }}
+      traefik.http.services.strapi.loadbalancer.server.port: 1337
   strapiDB:
     image: mysql:8
     container_name: strapiDB
@@ -66,11 +66,11 @@ services:
       NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: {{ env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
     # for domain connection
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.front.rule=Host(`{{ env.DOMAIN }}`)
-      - traefik.http.services.front.loadbalancer.server.port=3000
-      - traefik.http.routers.front.tls.domains[0].main={{ env.DOMAIN }}
-      - traefik.http.routers.front.tls.domains[0].sans=www.{{ env.DOMAIN }}
+      traefik.enable: true
+      traefik.http.routers.frontend.rule: Host(`www.{{ env.DOMAIN }}`)
+      "traefik.http.routers.frontend.tls.domains[0].main": www.{{ env.DOMAIN }}
+      "traefik.http.routers.frontend.tls.domains[0].sans": {{ env.DOMAIN }}
+      traefik.http.services.frontend.loadbalancer.server.port: 3000
   traefik:
     image: traefik:v2.9.4
     container_name: traefik
@@ -84,42 +84,38 @@ services:
       - 80:80
       - 443:443
     command:
+      - --api.dashboard=true
       - --log.level=warning
       - --accesslog.format=json
-      - --api.dashboard=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
+      - --certificatesresolvers.le.acme.email={{ env.CERTS_EMAIL }}
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.myresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       - --entrypoints.web.address=:80
+      - --entrypoints.web.http.tls.certResolver=le
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
       - --entrypoints.websecure.address=:443
-      - --certificatesResolvers.myresolver.acme.tlschallenge=true
       - --entrypoints.websecure.http.tls=true
-      # Note that Let's Encrypt API has rate limiting.
-      # Use Let's Encrypt staging server with the caServer configuration option when experimenting to avoid hitting this limit too fast.
-      - --certificatesresolvers.myresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
-      # - --certificatesresolvers.staging.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-      - --certificatesresolvers.myresolver.acme.email={{ env.CERTS_EMAIL }}
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     labels:
-      # Enable
-      - traefik.enable=true
-      # Dashboard
-      - traefik.http.routers.dashboard.rule=Host(`traefik.{{ env.DOMAIN }}`)
-      - traefik.http.routers.dashboard.service=api@internal
-      - traefik.http.routers.dashboard.middlewares=auth
-      - traefik.http.routers.unmatchedwww.rule=HostRegexp(`{host:(www\.).+}`)
-      - traefik.http.routers.unmatchedwww.service=noop@internal
-      - traefik.http.routers.unmatchedwww.priority=2
-      - traefik.http.routers.matchlast.rule=PathPrefix(`/`)
-      - traefik.http.routers.matchlast.priority=1
-      - traefik.http.routers.matchlast.middlewares=wwwtohttps
-      # Middleware (https-www-redirect)
-      - traefik.http.middlewares.wwwtohttps.redirectregex.regex=^https?://(?:www\.)?(.+)
-      - traefik.http.middlewares.wwwtohttps.redirectregex.replacement=https://$${1}
+      traefik.enable: true
+      traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
+      traefik.http.routers.unmatchedwww.service: noop@internal
+      traefik.http.routers.unmatchedwww.priority: 2
+      traefik.http.routers.matchlast.rule: PathPrefix(`/`)
+      traefik.http.routers.matchlast.priority: 1
+      traefik.http.routers.matchlast.middlewares: addwww
+      traefik.http.middlewares.addwww.redirectregex.regex: ^https://(?:www\.)?(.*)
+      traefik.http.middlewares.addwww.redirectregex.replacement: https://www.$${1}
+      traefik.http.routers.dashboard.rule: Host(`www.traefik.{{ env.DOMAIN }}`)
+      "traefik.http.routers.dashboard.tls.domains[0].main": traefik.localhost
+      "traefik.http.routers.dashboard.tls.domains[0].sans": www.traefik.localhost
+      traefik.http.routers.dashboard.service: api@internal
+      traefik.http.routers.dashboard.middlewares: auth
       # Note: all dollar signs in the hash need to be doubled for escaping.
       # Passwords must be hashed using BCrypt.
-      - traefik.http.middlewares.auth.basicauth.users={{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}
+      traefik.http.middlewares.auth.basicauth.users: '{{ env.TRAEFIK_DASHBOARD_LOGIN }}:{{ env.TRAEFIK_DASHBOARD_PASSWORD }}'
 
 # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate
