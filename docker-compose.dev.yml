@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   traefik:
@@ -10,36 +10,44 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /letsencrypt:/letsencrypt
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     command:
-      - --api.dashboard=true
-      - --log.level=warning
-      - --accesslog.format=json
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.websecure.http.tls=true
+      - "--api.dashboard=true"
+      - "--log.level=warning"
+      - "--accesslog.format=json"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.http.tls=true"
       # ports
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
       # redirect http to https
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entrypoints.web.http.redirections.entrypoint.scheme=https
-      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       # let's encrypt certificates
-      - --certificatesresolvers.le.acme.httpchallenge=true
-      - --certificatesresolvers.le.acme.email=test@example.com
-      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
-      - --certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.email=test@example.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
     labels:
-      traefik.enable: true
+      - "traefik.enable=true"
+      - "traefik.http.routers.wwwsecure-catchall.rule=hostregexp(`{host:(www\\.).+}`)"
+      - "traefik.http.routers.wwwsecure-catchall.middlewares=wwwtohttps"
+      - "traefik.http.routers.wwwsecure-catchall.entrypoints=websecure"
+      - "traefik.http.routers.wwwsecure-catchall.tls=true"
+      - "traefik.http.middlewares.wwwtohttps.redirectregex.regex=^https?://(?:www\\.)?(.+)"
+      - "traefik.http.middlewares.wwwtohttps.redirectregex.replacement=https://$${1}"
       # dashboard
-      traefik.http.routers.traefik.rule: Host(`traefik.localhost`)
-      traefik.http.routers.traefik.tls.certresolver: le
-      traefik.http.routers.traefik.service: api@internal
-      traefik.http.routers.traefik.middlewares: auth
+      - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik.tls.certresolver=le"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.routers.traefik.tls.domains[0].main=traefik.localhost"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=www.traefik.localhost"
       # credentials are test/test
-      traefik.http.middlewares.auth.basicauth.users: test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/
+      - "traefik.http.middlewares.auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
   strapi:
     container_name: strapi-dev
     build:
@@ -58,10 +66,14 @@ services:
       - ./apps/api/public/uploads:/app/apps/api/public/uploads
     env_file: ./apps/api/.env
     labels:
-      traefik.enable: true
-      traefik.http.routers.strapi.rule: Host(`api.localhost`)
-      traefik.http.routers.strapi.tls.certresolver: le
-      traefik.http.services.strapi.loadbalancer.server.port: 1337
+      - "traefik.enable=true"
+      - "traefik.http.routers.strapi.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.strapi.tls.certresolver=le"
+      - "traefik.http.routers.strapi.entrypoints=websecure"
+      - "traefik.http.routers.strapi.tls=true"
+      - "traefik.http.routers.strapi.tls.domains[0].main=api.localhost"
+      - "traefik.http.routers.strapi.tls.domains[0].sans=www.api.localhost"
+      - "traefik.http.services.strapi.loadbalancer.server.port=1337"
   strapiDB:
     image: mysql:8
     container_name: strapiDB
@@ -72,12 +84,12 @@ services:
       - strapi-data:/var/lib/mysql
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
     ports:
-      - 3306:3306
+      - "3306:3306"
     env_file: ./apps/api/.env
     command:
-      - --default-authentication-plugin=mysql_native_password
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
+      - "--default-authentication-plugin=mysql_native_password"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
   frontend:
     container_name: frontend-dev
     build:
@@ -87,10 +99,14 @@ services:
     networks:
       - strapi
     labels:
-      traefik.enable: true
-      traefik.http.routers.frontend.rule: Host(`localhost`)
-      traefik.http.routers.frontend.tls.certresolver: le
-      traefik.http.services.frontend.loadbalancer.server.port: 3000
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`localhost`)"
+      - "traefik.http.routers.frontend.tls.certresolver=le"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls=true"
+      - "traefik.http.routers.frontend.tls.domains[0].main=localhost"
+      - "traefik.http.routers.frontend.tls.domains[0].sans=www.localhost"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
     volumes:
       - ./yarn.lock:/app/yarn.lock
       - ./package.json:/app/package.json
