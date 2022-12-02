@@ -1,13 +1,33 @@
 import type { StrapiDefaultTypeParams, StrapiPagination, StrapiParams } from '../common'
 import type { SharedSeoComponent } from '../components/shared'
 
+interface ContactsPageLocalizationRequest {
+	title: string
+	description?: string
+	seo: SharedSeoComponent
+	slug: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 interface ContactsPageRequest {
 	data: {
 		title: string
 		description?: string
 		seo: SharedSeoComponent
 		slug: string
+		locale?: string
 		sitemap_exclude?: boolean
+	}
+}
+
+interface ContactsPageLocalizationResponse extends StrapiDefaultTypeParams {
+	title: string
+	description?: string
+	seo: SharedSeoComponent
+	slug: string
+	localizations: {
+		data?: ContactsPageListResponseDataItemLocalized[]
 	}
 }
 
@@ -16,8 +36,11 @@ interface ContactsPageListResponseDataItem {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: ContactsPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -26,8 +49,11 @@ interface ContactsPageListResponseDataItemLocalized {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: ContactsPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -43,8 +69,11 @@ interface ContactsPageResponseDataObject {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: ContactsPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -53,8 +82,11 @@ interface ContactsPageResponseDataObjectLocalized {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: ContactsPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -124,10 +156,32 @@ namespace ContactsPage {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Contacts-page
+	 * @name PostContactsPageLocalizations
+	 * @request POST:/contacts-page/localizations
+	 * @secure
+	 * @response `200` `ContactsPageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostContactsPageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = ContactsPageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = ContactsPageLocalizationResponse
+	}
 }
 
 export type {
+	ContactsPageLocalizationRequest,
 	ContactsPageRequest,
+	ContactsPageLocalizationResponse,
 	ContactsPageListResponseDataItem,
 	ContactsPageListResponseDataItemLocalized,
 	ContactsPageListResponse,
