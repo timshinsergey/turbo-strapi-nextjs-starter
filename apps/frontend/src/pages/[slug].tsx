@@ -3,6 +3,7 @@ import type { HomePageListResponseDataItem } from '@shared/services/strapi/inter
 import { BlockManager } from '@widgets/block-manager'
 import { log } from 'logger'
 import Link from 'next/link'
+import Seo from '@entities/seo'
 
 interface PageProps {
 	page: HomePageListResponseDataItem
@@ -14,8 +15,22 @@ const Page = ({ page, locale }: PageProps) => {
 	console.log('page', page)
 	console.log('locale', locale)
 	return (
-		<main>
-			{/* <div className='container'>
+		<>
+			{/* <Seo
+				currentLocale={page.attributes.locale}
+				title={page.attributes.seo.metaTitle}
+				description={page.attributes.seo.metaDescription}
+				image={page.attributes.seo.metaImage.data?.attributes.url}
+				keywords={page.attributes.seo.keywords}
+				faviconUrl={global.attributes.favicon.data.attributes.url}
+				localizations={page.attributes.localizations.data.map((item) => ({
+					slug: item.attributes.slug.trim(),
+					locale: item.attributes.locale,
+				}))}
+				slug={page.attributes}
+			/> */}
+			<main>
+				{/* <div className='container'>
 				<h1>Store</h1>
 				<div className='grid grid-flow-col justify-start gap-3'>
 					<Link href='/buttons'>
@@ -29,8 +44,9 @@ const Page = ({ page, locale }: PageProps) => {
 					</Link>
 				</div>
 			</div> */}
-			{/* <BlockManager blocks={page.attributes.blocks} /> */}
-		</main>
+				{/* <BlockManager blocks={page.attributes.blocks} /> */}
+			</main>
+		</>
 	)
 }
 
