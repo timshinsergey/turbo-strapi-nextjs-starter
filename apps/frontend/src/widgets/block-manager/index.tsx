@@ -12,21 +12,21 @@ interface BlockManagerProps {
 	blocks?: StrapiBlock[]
 }
 
-const getBlockComponent = (props: StrapiBlock, index: number) => {
-	const key = `index-${index}`
-
-	switch (props.__component) {
-		case 'logo-clouds.grid':
-			return <LogoCloudsGrid key={key} {...props} />
-		case 'hero.simple-centered':
-			return <HeroSimpleCentered key={key} {...props} />
-		default:
-			return null
-	}
-}
-
 const BlockManager = memo(({ blocks }: BlockManagerProps) => {
-	return <>{blocks?.map(getBlockComponent)}</>
+	return (
+		<>
+			{blocks?.map((block, idx) => {
+				switch (block.__component) {
+					case 'logo-clouds.grid':
+						return <LogoCloudsGrid key={block.__component + idx} {...block} />
+					case 'hero.simple-centered':
+						return <HeroSimpleCentered key={block.__component + idx} {...block} />
+					default:
+						return null
+				}
+			})}
+		</>
+	)
 })
 
 BlockManager.displayName = 'BlockManager'

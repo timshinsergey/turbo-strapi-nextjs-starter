@@ -1,30 +1,54 @@
 import type { StrapiDefaultTypeParams, StrapiPagination, StrapiParams } from '../common'
 import type { SharedSeoComponent } from '../components/shared'
 
+interface PageLocalizationRequest {
+	seo: SharedSeoComponent
+	title: string
+	slug: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 interface PageRequest {
 	data: {
 		seo: SharedSeoComponent
 		title: string
 		slug: string
+		locale: string
 		sitemap_exclude?: boolean
+	}
+}
+
+interface PageLocalizationResponse extends StrapiDefaultTypeParams {
+	seo: SharedSeoComponent
+	title: string
+	slug: string
+	localizations: {
+		data?: PageResponseDataObjectLocalized[]
 	}
 }
 
 interface PageListResponseDataItem {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		title: string
 		slug: string
+		localizations: {
+			data?: PageResponseDataObjectLocalized[]
+		}
 	}
 }
 
 interface PageListResponseDataItemLocalized {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		title: string
 		slug: string
+		localizations: {
+			data?: PageResponseDataObjectLocalized[]
+		}
 	}
 }
 
@@ -38,18 +62,24 @@ interface PageListResponse {
 interface PageResponseDataObject {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		title: string
 		slug: string
+		localizations: {
+			data?: PageResponseDataObjectLocalized[]
+		}
 	}
 }
 
 interface PageResponseDataObjectLocalized {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		title: string
 		slug: string
+		localizations: {
+			data?: PageResponseDataObjectLocalized[]
+		}
 	}
 }
 
@@ -165,10 +195,34 @@ namespace Page {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Page
+	 * @name PostPagesIdLocalizations
+	 * @request POST:/pages/{id}/localizations
+	 * @secure
+	 * @response `200` `PageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostPagesIdLocalizations {
+		export type RequestParams = {
+			id: number
+		}
+		export type RequestQuery = {}
+		export type RequestBody = PageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = PageLocalizationResponse
+	}
 }
 
 export type {
+	PageLocalizationRequest,
 	PageRequest,
+	PageLocalizationResponse,
 	PageListResponseDataItem,
 	PageListResponseDataItemLocalized,
 	PageListResponse,

@@ -1,13 +1,33 @@
 import type { StrapiDefaultTypeParams, StrapiPagination, StrapiParams } from '../common'
 import type { SharedSeoComponent } from '../components/shared'
 
+interface ServiceLocalizationRequest {
+	title: string
+	description?: string
+	slug: string
+	seo: SharedSeoComponent
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 interface ServiceRequest {
 	data: {
 		title: string
 		description?: string
 		slug: string
+		locale?: string
 		seo: SharedSeoComponent
 		sitemap_exclude?: boolean
+	}
+}
+
+interface ServiceLocalizationResponse extends StrapiDefaultTypeParams {
+	title: string
+	description?: string
+	slug: string
+	seo: SharedSeoComponent
+	localizations: {
+		data?: ServiceListResponseDataItemLocalized[]
 	}
 }
 
@@ -17,7 +37,10 @@ interface ServiceListResponseDataItem {
 		title: string
 		description?: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
+		localizations: {
+			data?: ServiceListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -27,7 +50,10 @@ interface ServiceListResponseDataItemLocalized {
 		title: string
 		description?: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
+		localizations: {
+			data?: ServiceListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -44,7 +70,10 @@ interface ServiceResponseDataObject {
 		title: string
 		description?: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
+		localizations: {
+			data?: ServiceListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -54,7 +83,10 @@ interface ServiceResponseDataObjectLocalized {
 		title: string
 		description?: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
+		localizations: {
+			data?: ServiceListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -170,10 +202,34 @@ namespace Service {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Service
+	 * @name PostServicesIdLocalizations
+	 * @request POST:/services/{id}/localizations
+	 * @secure
+	 * @response `200` `ServiceLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostServicesIdLocalizations {
+		export type RequestParams = {
+			id: number
+		}
+		export type RequestQuery = {}
+		export type RequestBody = ServiceLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = ServiceLocalizationResponse
+	}
 }
 
 export type {
+	ServiceLocalizationRequest,
 	ServiceRequest,
+	ServiceLocalizationResponse,
 	ServiceListResponseDataItem,
 	ServiceListResponseDataItemLocalized,
 	ServiceListResponse,

@@ -183,6 +183,7 @@ interface StrapiParams {
 	populate?: string
 	/** Filters to apply */
 	filters?: object
+	locale?: string
 }
 
 interface StrapiDefaultTypeParams {
@@ -199,6 +200,7 @@ interface StrapiDefaultTypeParams {
 		data: StrapiUpdatedBy
 	}
 	sitemap_exclude?: boolean
+	locale: string
 }
 
 type StrapiMedia = StrapiImage | StrapiFile

@@ -19,13 +19,144 @@ export interface Error {
 	}
 }
 
+export interface ArticleLocalizationRequest {
+	title: string
+	slug: string
+	seo: SharedSeoComponent
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface ArticleRequest {
 	data: {
 		title: string
 		slug: string
 		seo: SharedSeoComponent
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface ArticleLocalizationResponse {
+	id?: number
+	title?: string
+	slug?: string
+	seo?: SharedSeoComponent
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface ArticleListResponseDataItem {
@@ -144,6 +275,10 @@ export interface ArticleListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ArticleListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -264,6 +399,10 @@ export interface ArticleListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -398,6 +537,10 @@ export interface ArticleResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ArticleResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -518,6 +661,10 @@ export interface ArticleResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -1002,14 +1149,147 @@ export interface SharedSeoComponent {
 	canonicalURL?: string
 }
 
+export interface BlogPageLocalizationRequest {
+	title: string
+	description?: string
+	seo: SharedSeoComponent
+	slug: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface BlogPageRequest {
 	data: {
 		title: string
 		description?: string
 		seo: SharedSeoComponent
 		slug: string
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface BlogPageLocalizationResponse {
+	id?: number
+	title?: string
+	description?: string
+	seo?: SharedSeoComponent
+	slug?: string
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface BlogPageListResponseDataItem {
@@ -1129,6 +1409,10 @@ export interface BlogPageListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: BlogPageListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -1250,6 +1534,10 @@ export interface BlogPageListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -1385,6 +1673,10 @@ export interface BlogPageResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: BlogPageResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -1506,6 +1798,10 @@ export interface BlogPageResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -1515,14 +1811,147 @@ export interface BlogPageResponse {
 	meta?: object
 }
 
+export interface ContactsPageLocalizationRequest {
+	title: string
+	description?: string
+	seo: SharedSeoComponent
+	slug: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface ContactsPageRequest {
 	data: {
 		title: string
 		description?: string
 		seo: SharedSeoComponent
 		slug: string
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface ContactsPageLocalizationResponse {
+	id?: number
+	title?: string
+	description?: string
+	seo?: SharedSeoComponent
+	slug?: string
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface ContactsPageListResponseDataItem {
@@ -1642,6 +2071,10 @@ export interface ContactsPageListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ContactsPageListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -1763,6 +2196,10 @@ export interface ContactsPageListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -1898,6 +2335,10 @@ export interface ContactsPageResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ContactsPageResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -2019,6 +2460,10 @@ export interface ContactsPageResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -2026,6 +2471,17 @@ export interface ContactsPageResponseDataObjectLocalized {
 export interface ContactsPageResponse {
 	data?: ContactsPageResponseDataObject
 	meta?: object
+}
+
+export interface GlobalLocalizationRequest {
+	socialMedia?: SharedLinkComponent[]
+	/** @example "string or id" */
+	logo: number | string
+	footer: GlobalFooterComponent
+	/** @example "string or id" */
+	favicon: number | string
+	locale: string
+	sitemap_exclude?: boolean
 }
 
 export interface GlobalRequest {
@@ -2036,8 +2492,586 @@ export interface GlobalRequest {
 		footer: GlobalFooterComponent
 		/** @example "string or id" */
 		favicon: number | string
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface GlobalLocalizationResponse {
+	id?: number
+	socialMedia?: SharedLinkComponent[]
+	logo?: {
+		data?: {
+			id?: number
+			attributes?: {
+				name?: string
+				alternativeText?: string
+				caption?: string
+				width?: number
+				height?: number
+				formats?: any
+				hash?: string
+				ext?: string
+				mime?: string
+				/** @format float */
+				size?: number
+				url?: string
+				previewUrl?: string
+				provider?: string
+				provider_metadata?: any
+				related?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}[]
+				}
+				folder?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							pathId?: number
+							parent?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							children?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							files?: {
+								data?: {
+									id?: number
+									attributes?: {
+										name?: string
+										alternativeText?: string
+										caption?: string
+										width?: number
+										height?: number
+										formats?: any
+										hash?: string
+										ext?: string
+										mime?: string
+										/** @format float */
+										size?: number
+										url?: string
+										previewUrl?: string
+										provider?: string
+										provider_metadata?: any
+										related?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}[]
+										}
+										folder?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										folderPath?: string
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: {
+													firstname?: string
+													lastname?: string
+													username?: string
+													/** @format email */
+													email?: string
+													resetPasswordToken?: string
+													registrationToken?: string
+													isActive?: boolean
+													roles?: {
+														data?: {
+															id?: number
+															attributes?: {
+																name?: string
+																code?: string
+																description?: string
+																users?: {
+																	data?: {
+																		id?: number
+																		attributes?: object
+																	}[]
+																}
+																permissions?: {
+																	data?: {
+																		id?: number
+																		attributes?: {
+																			action?: string
+																			subject?: string
+																			properties?: any
+																			conditions?: any
+																			role?: {
+																				data?: {
+																					id?: number
+																					attributes?: object
+																				}
+																			}
+																			/** @format date-time */
+																			createdAt?: string
+																			/** @format date-time */
+																			updatedAt?: string
+																			createdBy?: {
+																				data?: {
+																					id?: number
+																					attributes?: object
+																				}
+																			}
+																			updatedBy?: {
+																				data?: {
+																					id?: number
+																					attributes?: object
+																				}
+																			}
+																		}
+																	}[]
+																}
+																/** @format date-time */
+																createdAt?: string
+																/** @format date-time */
+																updatedAt?: string
+																createdBy?: {
+																	data?: {
+																		id?: number
+																		attributes?: object
+																	}
+																}
+																updatedBy?: {
+																	data?: {
+																		id?: number
+																		attributes?: object
+																	}
+																}
+															}
+														}[]
+													}
+													blocked?: boolean
+													preferedLanguage?: string
+													/** @format date-time */
+													createdAt?: string
+													/** @format date-time */
+													updatedAt?: string
+													createdBy?: {
+														data?: {
+															id?: number
+															attributes?: object
+														}
+													}
+													updatedBy?: {
+														data?: {
+															id?: number
+															attributes?: object
+														}
+													}
+												}
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										sitemap_exclude?: boolean
+									}
+								}[]
+							}
+							path?: string
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							sitemap_exclude?: boolean
+						}
+					}
+				}
+				folderPath?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				sitemap_exclude?: boolean
+			}
+		}
+	}
+	footer?: GlobalFooterComponent
+	favicon?: {
+		data?: {
+			id?: number
+			attributes?: {
+				name?: string
+				alternativeText?: string
+				caption?: string
+				width?: number
+				height?: number
+				formats?: any
+				hash?: string
+				ext?: string
+				mime?: string
+				/** @format float */
+				size?: number
+				url?: string
+				previewUrl?: string
+				provider?: string
+				provider_metadata?: any
+				related?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}[]
+				}
+				folder?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							pathId?: number
+							parent?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							children?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							files?: {
+								data?: {
+									id?: number
+									attributes?: {
+										name?: string
+										alternativeText?: string
+										caption?: string
+										width?: number
+										height?: number
+										formats?: any
+										hash?: string
+										ext?: string
+										mime?: string
+										/** @format float */
+										size?: number
+										url?: string
+										previewUrl?: string
+										provider?: string
+										provider_metadata?: any
+										related?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}[]
+										}
+										folder?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										folderPath?: string
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: {
+													firstname?: string
+													lastname?: string
+													username?: string
+													/** @format email */
+													email?: string
+													resetPasswordToken?: string
+													registrationToken?: string
+													isActive?: boolean
+													roles?: {
+														data?: {
+															id?: number
+															attributes?: {
+																name?: string
+																code?: string
+																description?: string
+																users?: {
+																	data?: {
+																		id?: number
+																		attributes?: object
+																	}[]
+																}
+																permissions?: {
+																	data?: {
+																		id?: number
+																		attributes?: {
+																			action?: string
+																			subject?: string
+																			properties?: any
+																			conditions?: any
+																			role?: {
+																				data?: {
+																					id?: number
+																					attributes?: object
+																				}
+																			}
+																			/** @format date-time */
+																			createdAt?: string
+																			/** @format date-time */
+																			updatedAt?: string
+																			createdBy?: {
+																				data?: {
+																					id?: number
+																					attributes?: object
+																				}
+																			}
+																			updatedBy?: {
+																				data?: {
+																					id?: number
+																					attributes?: object
+																				}
+																			}
+																		}
+																	}[]
+																}
+																/** @format date-time */
+																createdAt?: string
+																/** @format date-time */
+																updatedAt?: string
+																createdBy?: {
+																	data?: {
+																		id?: number
+																		attributes?: object
+																	}
+																}
+																updatedBy?: {
+																	data?: {
+																		id?: number
+																		attributes?: object
+																	}
+																}
+															}
+														}[]
+													}
+													blocked?: boolean
+													preferedLanguage?: string
+													/** @format date-time */
+													createdAt?: string
+													/** @format date-time */
+													updatedAt?: string
+													createdBy?: {
+														data?: {
+															id?: number
+															attributes?: object
+														}
+													}
+													updatedBy?: {
+														data?: {
+															id?: number
+															attributes?: object
+														}
+													}
+												}
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										sitemap_exclude?: boolean
+									}
+								}[]
+							}
+							path?: string
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							sitemap_exclude?: boolean
+						}
+					}
+				}
+				folderPath?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				sitemap_exclude?: boolean
+			}
+		}
+	}
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface GlobalListResponseDataItem {
@@ -2611,6 +3645,10 @@ export interface GlobalListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: GlobalListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -3186,6 +4224,10 @@ export interface GlobalListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -3775,6 +4817,10 @@ export interface GlobalResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: GlobalResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -4350,6 +5396,10 @@ export interface GlobalResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -4372,12 +5422,141 @@ export interface GlobalFooterComponent {
 	copyright?: string
 }
 
+export interface HomePageLocalizationRequest {
+	seo: SharedSeoComponent
+	blocks: (LogoCloudsGrid | HeroSimpleCentered | (LogoCloudsGrid & HeroSimpleCentered))[]
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface HomePageRequest {
 	data: {
 		seo: SharedSeoComponent
 		blocks: (LogoCloudsGrid | HeroSimpleCentered | (LogoCloudsGrid & HeroSimpleCentered))[]
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface HomePageLocalizationResponse {
+	id?: number
+	seo?: SharedSeoComponent
+	blocks?: (LogoCloudsGrid | HeroSimpleCentered | (LogoCloudsGrid & HeroSimpleCentered))[]
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface HomePageListResponseDataItem {
@@ -4495,6 +5674,10 @@ export interface HomePageListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: HomePageListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -4614,6 +5797,10 @@ export interface HomePageListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -4747,6 +5934,10 @@ export interface HomePageResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: HomePageResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -4866,6 +6057,10 @@ export interface HomePageResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -5121,13 +6316,144 @@ export interface HeroSimpleCentered {
 	topText?: string
 }
 
+export interface NotFoundPageLocalizationRequest {
+	title: string
+	description?: string
+	seoTitle: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface NotFoundPageRequest {
 	data: {
 		title: string
 		description?: string
 		seoTitle: string
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface NotFoundPageLocalizationResponse {
+	id?: number
+	title?: string
+	description?: string
+	seoTitle?: string
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface NotFoundPageListResponseDataItem {
@@ -5246,6 +6572,10 @@ export interface NotFoundPageListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: NotFoundPageListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -5366,6 +6696,10 @@ export interface NotFoundPageListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -5500,6 +6834,10 @@ export interface NotFoundPageResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: NotFoundPageResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -5620,6 +6958,10 @@ export interface NotFoundPageResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -5629,13 +6971,144 @@ export interface NotFoundPageResponse {
 	meta?: object
 }
 
+export interface PageLocalizationRequest {
+	seo: SharedSeoComponent
+	title: string
+	slug: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface PageRequest {
 	data: {
 		seo: SharedSeoComponent
 		title: string
 		slug: string
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface PageLocalizationResponse {
+	id?: number
+	seo?: SharedSeoComponent
+	title?: string
+	slug?: string
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface PageListResponseDataItem {
@@ -5754,6 +7227,10 @@ export interface PageListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: PageListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -5874,6 +7351,10 @@ export interface PageListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6008,6 +7489,10 @@ export interface PageResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: PageResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6128,6 +7613,10 @@ export interface PageResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6137,14 +7626,147 @@ export interface PageResponse {
 	meta?: object
 }
 
+export interface ServiceLocalizationRequest {
+	title: string
+	description?: string
+	slug: string
+	seo: SharedSeoComponent
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface ServiceRequest {
 	data: {
 		title: string
 		description?: string
 		slug: string
 		seo: SharedSeoComponent
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface ServiceLocalizationResponse {
+	id?: number
+	title?: string
+	description?: string
+	slug?: string
+	seo?: SharedSeoComponent
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface ServiceListResponseDataItem {
@@ -6264,6 +7886,10 @@ export interface ServiceListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ServiceListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6385,6 +8011,10 @@ export interface ServiceListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6520,6 +8150,10 @@ export interface ServiceResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ServiceResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6641,6 +8275,10 @@ export interface ServiceResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6650,14 +8288,147 @@ export interface ServiceResponse {
 	meta?: object
 }
 
+export interface ServicesPageLocalizationRequest {
+	title: string
+	description?: string
+	seo: SharedSeoComponent
+	slug: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 export interface ServicesPageRequest {
 	data: {
 		title: string
 		description?: string
 		seo: SharedSeoComponent
 		slug: string
+		locale?: string
 		sitemap_exclude?: boolean
 	}
+}
+
+export interface ServicesPageLocalizationResponse {
+	id?: number
+	title?: string
+	description?: string
+	seo?: SharedSeoComponent
+	slug?: string
+	/** @format date-time */
+	createdAt?: string
+	/** @format date-time */
+	updatedAt?: string
+	/** @format date-time */
+	publishedAt?: string
+	createdBy?: {
+		data?: {
+			id?: number
+			attributes?: {
+				firstname?: string
+				lastname?: string
+				username?: string
+				/** @format email */
+				email?: string
+				resetPasswordToken?: string
+				registrationToken?: string
+				isActive?: boolean
+				roles?: {
+					data?: {
+						id?: number
+						attributes?: {
+							name?: string
+							code?: string
+							description?: string
+							users?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}[]
+							}
+							permissions?: {
+								data?: {
+									id?: number
+									attributes?: {
+										action?: string
+										subject?: string
+										properties?: any
+										conditions?: any
+										role?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										/** @format date-time */
+										createdAt?: string
+										/** @format date-time */
+										updatedAt?: string
+										createdBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+										updatedBy?: {
+											data?: {
+												id?: number
+												attributes?: object
+											}
+										}
+									}
+								}[]
+							}
+							/** @format date-time */
+							createdAt?: string
+							/** @format date-time */
+							updatedAt?: string
+							createdBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+							updatedBy?: {
+								data?: {
+									id?: number
+									attributes?: object
+								}
+							}
+						}
+					}[]
+				}
+				blocked?: boolean
+				preferedLanguage?: string
+				/** @format date-time */
+				createdAt?: string
+				/** @format date-time */
+				updatedAt?: string
+				createdBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+				updatedBy?: {
+					data?: {
+						id?: number
+						attributes?: object
+					}
+				}
+			}
+		}
+	}
+	updatedBy?: {
+		data?: {
+			id?: number
+			attributes?: object
+		}
+	}
+	localizations?: {
+		data?: any[]
+	}
+	locale?: string
+	sitemap_exclude?: boolean
 }
 
 export interface ServicesPageListResponseDataItem {
@@ -6777,6 +8548,10 @@ export interface ServicesPageListResponseDataItem {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ServicesPageListResponseDataItemLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -6898,6 +8673,10 @@ export interface ServicesPageListResponseDataItemLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -7033,6 +8812,10 @@ export interface ServicesPageResponseDataObject {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: ServicesPageResponseDataObjectLocalized[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -7154,6 +8937,10 @@ export interface ServicesPageResponseDataObjectLocalized {
 				attributes?: object
 			}
 		}
+		localizations?: {
+			data?: any[]
+		}
+		locale?: string
 		sitemap_exclude?: boolean
 	}
 }
@@ -12138,6 +13925,28 @@ export namespace Article {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Article
+	 * @name PostArticlesIdLocalizations
+	 * @request POST:/articles/{id}/localizations
+	 * @secure
+	 * @response `200` `ArticleLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostArticlesIdLocalizations {
+		export type RequestParams = {
+			id: number
+		}
+		export type RequestQuery = {}
+		export type RequestBody = ArticleLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = ArticleLocalizationResponse
+	}
 }
 
 export namespace BlogPage {
@@ -12219,6 +14028,26 @@ export namespace BlogPage {
 		export type RequestBody = never
 		export type RequestHeaders = {}
 		export type ResponseBody = number
+	}
+	/**
+	 * No description
+	 * @tags Blog-page
+	 * @name PostBlogPageLocalizations
+	 * @request POST:/blog-page/localizations
+	 * @secure
+	 * @response `200` `BlogPageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostBlogPageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = BlogPageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = BlogPageLocalizationResponse
 	}
 }
 
@@ -12302,6 +14131,26 @@ export namespace ContactsPage {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Contacts-page
+	 * @name PostContactsPageLocalizations
+	 * @request POST:/contacts-page/localizations
+	 * @secure
+	 * @response `200` `ContactsPageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostContactsPageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = ContactsPageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = ContactsPageLocalizationResponse
+	}
 }
 
 export namespace Global {
@@ -12383,6 +14232,26 @@ export namespace Global {
 		export type RequestBody = never
 		export type RequestHeaders = {}
 		export type ResponseBody = number
+	}
+	/**
+	 * No description
+	 * @tags Global
+	 * @name PostGlobalLocalizations
+	 * @request POST:/global/localizations
+	 * @secure
+	 * @response `200` `GlobalLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostGlobalLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = GlobalLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = GlobalLocalizationResponse
 	}
 }
 
@@ -12466,6 +14335,26 @@ export namespace HomePage {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Home-page
+	 * @name PostHomePageLocalizations
+	 * @request POST:/home-page/localizations
+	 * @secure
+	 * @response `200` `HomePageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostHomePageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = HomePageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = HomePageLocalizationResponse
+	}
 }
 
 export namespace NotFoundPage {
@@ -12547,6 +14436,26 @@ export namespace NotFoundPage {
 		export type RequestBody = never
 		export type RequestHeaders = {}
 		export type ResponseBody = number
+	}
+	/**
+	 * No description
+	 * @tags Not-found-page
+	 * @name PostNotFoundPageLocalizations
+	 * @request POST:/not-found-page/localizations
+	 * @secure
+	 * @response `200` `NotFoundPageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostNotFoundPageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = NotFoundPageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = NotFoundPageLocalizationResponse
 	}
 }
 
@@ -12676,6 +14585,28 @@ export namespace Page {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Page
+	 * @name PostPagesIdLocalizations
+	 * @request POST:/pages/{id}/localizations
+	 * @secure
+	 * @response `200` `PageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostPagesIdLocalizations {
+		export type RequestParams = {
+			id: number
+		}
+		export type RequestQuery = {}
+		export type RequestBody = PageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = PageLocalizationResponse
+	}
 }
 
 export namespace Service {
@@ -12804,6 +14735,28 @@ export namespace Service {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Service
+	 * @name PostServicesIdLocalizations
+	 * @request POST:/services/{id}/localizations
+	 * @secure
+	 * @response `200` `ServiceLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostServicesIdLocalizations {
+		export type RequestParams = {
+			id: number
+		}
+		export type RequestQuery = {}
+		export type RequestBody = ServiceLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = ServiceLocalizationResponse
+	}
 }
 
 export namespace ServicesPage {
@@ -12885,6 +14838,26 @@ export namespace ServicesPage {
 		export type RequestBody = never
 		export type RequestHeaders = {}
 		export type ResponseBody = number
+	}
+	/**
+	 * No description
+	 * @tags Services-page
+	 * @name PostServicesPageLocalizations
+	 * @request POST:/services-page/localizations
+	 * @secure
+	 * @response `200` `ServicesPageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostServicesPageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = ServicesPageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = ServicesPageLocalizationResponse
 	}
 }
 
@@ -13705,6 +15678,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Article
+		 * @name PostArticlesIdLocalizations
+		 * @request POST:/articles/{id}/localizations
+		 * @secure
+		 * @response `200` `ArticleLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postArticlesIdLocalizations: (
+			id: number,
+			data: ArticleLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ArticleLocalizationResponse, Error>({
+				path: `/articles/${id}/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	blogPage = {
 		/**
@@ -13775,6 +15777,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/blog-page`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Blog-page
+		 * @name PostBlogPageLocalizations
+		 * @request POST:/blog-page/localizations
+		 * @secure
+		 * @response `200` `BlogPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postBlogPageLocalizations: (data: BlogPageLocalizationRequest, params: RequestParams = {}) =>
+			this.request<BlogPageLocalizationResponse, Error>({
+				path: `/blog-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),
@@ -13851,6 +15878,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Contacts-page
+		 * @name PostContactsPageLocalizations
+		 * @request POST:/contacts-page/localizations
+		 * @secure
+		 * @response `200` `ContactsPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postContactsPageLocalizations: (
+			data: ContactsPageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ContactsPageLocalizationResponse, Error>({
+				path: `/contacts-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	global = {
 		/**
@@ -13921,6 +15976,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/global`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Global
+		 * @name PostGlobalLocalizations
+		 * @request POST:/global/localizations
+		 * @secure
+		 * @response `200` `GlobalLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postGlobalLocalizations: (data: GlobalLocalizationRequest, params: RequestParams = {}) =>
+			this.request<GlobalLocalizationResponse, Error>({
+				path: `/global/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),
@@ -13997,6 +16077,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Home-page
+		 * @name PostHomePageLocalizations
+		 * @request POST:/home-page/localizations
+		 * @secure
+		 * @response `200` `HomePageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postHomePageLocalizations: (data: HomePageLocalizationRequest, params: RequestParams = {}) =>
+			this.request<HomePageLocalizationResponse, Error>({
+				path: `/home-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	notFoundPage = {
 		/**
@@ -14067,6 +16172,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/not-found-page`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Not-found-page
+		 * @name PostNotFoundPageLocalizations
+		 * @request POST:/not-found-page/localizations
+		 * @secure
+		 * @response `200` `NotFoundPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postNotFoundPageLocalizations: (
+			data: NotFoundPageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<NotFoundPageLocalizationResponse, Error>({
+				path: `/not-found-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),
@@ -14191,6 +16324,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Page
+		 * @name PostPagesIdLocalizations
+		 * @request POST:/pages/{id}/localizations
+		 * @secure
+		 * @response `200` `PageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postPagesIdLocalizations: (
+			id: number,
+			data: PageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<PageLocalizationResponse, Error>({
+				path: `/pages/${id}/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	service = {
 		/**
@@ -14312,6 +16474,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Service
+		 * @name PostServicesIdLocalizations
+		 * @request POST:/services/{id}/localizations
+		 * @secure
+		 * @response `200` `ServiceLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postServicesIdLocalizations: (
+			id: number,
+			data: ServiceLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ServiceLocalizationResponse, Error>({
+				path: `/services/${id}/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	servicesPage = {
 		/**
@@ -14382,6 +16573,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/services-page`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Services-page
+		 * @name PostServicesPageLocalizations
+		 * @request POST:/services-page/localizations
+		 * @secure
+		 * @response `200` `ServicesPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postServicesPageLocalizations: (
+			data: ServicesPageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ServicesPageLocalizationResponse, Error>({
+				path: `/services-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),

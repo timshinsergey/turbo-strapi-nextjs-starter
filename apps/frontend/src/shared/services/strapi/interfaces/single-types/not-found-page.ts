@@ -1,11 +1,29 @@
 import type { StrapiDefaultTypeParams, StrapiPagination, StrapiParams } from '../common'
 
+interface NotFoundPageLocalizationRequest {
+	title: string
+	description?: string
+	seoTitle: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 interface NotFoundPageRequest {
 	data: {
 		title: string
 		description?: string
 		seoTitle: string
+		locale?: string
 		sitemap_exclude?: boolean
+	}
+}
+
+interface NotFoundPageLocalizationResponse extends StrapiDefaultTypeParams {
+	title: string
+	description?: string
+	seotitle: string
+	localizations: {
+		data?: NotFoundPageListResponseDataItemLocalized[]
 	}
 }
 
@@ -15,6 +33,9 @@ interface NotFoundPageListResponseDataItem {
 		title: string
 		description?: string
 		seotitle: string
+		localizations: {
+			data?: NotFoundPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -24,6 +45,9 @@ interface NotFoundPageListResponseDataItemLocalized {
 		title: string
 		description?: string
 		seotitle: string
+		localizations: {
+			data?: NotFoundPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -40,6 +64,9 @@ interface NotFoundPageResponseDataObject {
 		title: string
 		description?: string
 		seotitle: string
+		localizations: {
+			data?: NotFoundPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -49,6 +76,9 @@ interface NotFoundPageResponseDataObjectLocalized {
 		title: string
 		description?: string
 		seotitle: string
+		localizations: {
+			data?: NotFoundPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -118,10 +148,32 @@ namespace NotFoundPage {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Not-found-page
+	 * @name PostNotFoundPageLocalizations
+	 * @request POST:/not-found-page/localizations
+	 * @secure
+	 * @response `200` `NotFoundPageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostNotFoundPageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = NotFoundPageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = NotFoundPageLocalizationResponse
+	}
 }
 
 export type {
+	NotFoundPageLocalizationRequest,
 	NotFoundPageRequest,
+	NotFoundPageLocalizationResponse,
 	NotFoundPageListResponseDataItem,
 	NotFoundPageListResponseDataItemLocalized,
 	NotFoundPageListResponse,

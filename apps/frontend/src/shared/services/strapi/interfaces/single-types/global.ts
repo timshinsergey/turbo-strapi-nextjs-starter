@@ -7,6 +7,17 @@ import type {
 import type { GlobalFooterComponent } from '../components/global'
 import type { SharedLinkComponent } from '../components/shared'
 
+interface GlobalLocalizationRequest {
+	socialMedia?: SharedLinkComponent[]
+	/** @example "string or id" */
+	logo: number | string
+	footer: GlobalFooterComponent
+	/** @example "string or id" */
+	favicon: number | string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 interface GlobalRequest {
 	data: {
 		socialMedia?: SharedLinkComponent[]
@@ -15,7 +26,22 @@ interface GlobalRequest {
 		footer: GlobalFooterComponent
 		/** @example "string or id" */
 		favicon: number | string
+		locale?: string
 		sitemap_exclude?: boolean
+	}
+}
+
+interface GlobalLocalizationResponse extends StrapiDefaultTypeParams {
+	socialMedia?: SharedLinkComponent[]
+	logo: {
+		data: StrapiImage
+	}
+	footer: GlobalFooterComponent
+	favicon: {
+		data?: StrapiImage
+	}
+	localizations: {
+		data?: GlobalListResponseDataItemLocalized[]
 	}
 }
 
@@ -23,12 +49,15 @@ interface GlobalListResponseDataItem {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		socialMedia?: SharedLinkComponent[]
-		logo?: {
+		logo: {
 			data: StrapiImage
 		}
-		footer?: GlobalFooterComponent
-		favicon?: {
+		footer: GlobalFooterComponent
+		favicon: {
 			data?: StrapiImage
+		}
+		localizations: {
+			data?: GlobalListResponseDataItemLocalized[]
 		}
 	}
 }
@@ -37,12 +66,15 @@ interface GlobalListResponseDataItemLocalized {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		socialMedia?: SharedLinkComponent[]
-		logo?: {
+		logo: {
 			data: StrapiImage
 		}
-		footer?: GlobalFooterComponent
-		favicon?: {
+		footer: GlobalFooterComponent
+		favicon: {
 			data?: StrapiImage
+		}
+		localizations: {
+			data?: GlobalListResponseDataItemLocalized[]
 		}
 	}
 }
@@ -58,12 +90,15 @@ interface GlobalResponseDataObject {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		socialMedia?: SharedLinkComponent[]
-		logo?: {
+		logo: {
 			data: StrapiImage
 		}
-		footer?: GlobalFooterComponent
-		favicon?: {
+		footer: GlobalFooterComponent
+		favicon: {
 			data?: StrapiImage
+		}
+		localizations: {
+			data?: GlobalListResponseDataItemLocalized[]
 		}
 	}
 }
@@ -72,12 +107,15 @@ interface GlobalResponseDataObjectLocalized {
 	id: number
 	attributes: StrapiDefaultTypeParams & {
 		socialMedia?: SharedLinkComponent[]
-		logo?: {
+		logo: {
 			data: StrapiImage
 		}
-		footer?: GlobalFooterComponent
-		favicon?: {
+		footer: GlobalFooterComponent
+		favicon: {
 			data?: StrapiImage
+		}
+		localizations: {
+			data?: GlobalListResponseDataItemLocalized[]
 		}
 	}
 }
@@ -148,10 +186,32 @@ namespace Global {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Global
+	 * @name PostGlobalLocalizations
+	 * @request POST:/global/localizations
+	 * @secure
+	 * @response `200` `GlobalLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostGlobalLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = GlobalLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = GlobalLocalizationResponse
+	}
 }
 
 export type {
+	GlobalLocalizationRequest,
 	GlobalRequest,
+	GlobalLocalizationResponse,
 	GlobalListResponseDataItem,
 	GlobalListResponseDataItemLocalized,
 	GlobalListResponse,

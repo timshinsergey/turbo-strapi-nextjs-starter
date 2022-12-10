@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   strapi:
@@ -26,6 +26,13 @@ services:
       AWS_BUCKET: {{ env.AWS_BUCKET }}
       STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE: {{ env.STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE }}
       NODE_ENV: {{ env.NODE_ENV }}
+    volumes:
+      - ./apps/api/config:/app/apps/api/config
+      - ./apps/api/src:/app/apps/api/src
+      - ./package.json:/app/package.json
+      - ./yarn.lock:/app/yarn.lock
+      - ./apps/api/.env:/app/apps/api/.env
+      - ./apps/api/public/uploads:/app/apps/api/public/uploads
     # for domain connection
     labels:
       - "traefik.enable=true"
@@ -107,6 +114,8 @@ services:
       - "--certificatesresolvers.le.acme.httpchallenge=true"
       - "--certificatesresolvers.le.acme.email={{ env.CERTS_EMAIL }}"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      # Note that Let's Encrypt API has rate limiting.
+      # Use Let's Encrypt staging server with the caServer configuration option when experimenting to avoid hitting this limit too fast.
       - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
     labels:
       - "traefik.enable=true"

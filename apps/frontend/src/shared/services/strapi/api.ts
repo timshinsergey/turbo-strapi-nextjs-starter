@@ -7,16 +7,22 @@ import axios, {
 } from 'axios'
 import type {
 	ArticleListResponse,
+	ArticleLocalizationRequest,
+	ArticleLocalizationResponse,
 	ArticleRequest,
 	ArticleResponse,
 } from './interfaces/collection-types/article'
 import type {
 	PageListResponse,
+	PageLocalizationRequest,
+	PageLocalizationResponse,
 	PageRequest,
 	PageResponse,
 } from './interfaces/collection-types/page'
 import type {
 	ServiceListResponse,
+	ServiceLocalizationRequest,
+	ServiceLocalizationResponse,
 	ServiceRequest,
 	ServiceResponse,
 } from './interfaces/collection-types/service'
@@ -40,31 +46,43 @@ import type {
 } from './interfaces/plugins/roles-and-permissions'
 import type {
 	BlogPageListResponse,
+	BlogPageLocalizationRequest,
+	BlogPageLocalizationResponse,
 	BlogPageRequest,
 	BlogPageResponse,
 } from './interfaces/single-types/blog-page'
 import type {
 	ContactsPageListResponse,
+	ContactsPageLocalizationRequest,
+	ContactsPageLocalizationResponse,
 	ContactsPageRequest,
 	ContactsPageResponse,
 } from './interfaces/single-types/contacts-page'
 import type {
 	GlobalListResponse,
+	GlobalLocalizationRequest,
+	GlobalLocalizationResponse,
 	GlobalRequest,
 	GlobalResponse,
 } from './interfaces/single-types/global'
 import type {
 	HomePageListResponse,
+	HomePageLocalizationRequest,
+	HomePageLocalizationResponse,
 	HomePageRequest,
 	HomePageResponse,
 } from './interfaces/single-types/home-page'
 import type {
 	NotFoundPageListResponse,
+	NotFoundPageLocalizationRequest,
+	NotFoundPageLocalizationResponse,
 	NotFoundPageRequest,
 	NotFoundPageResponse,
 } from './interfaces/single-types/not-found-page'
 import type {
 	ServicesPageListResponse,
+	ServicesPageLocalizationRequest,
+	ServicesPageLocalizationResponse,
 	ServicesPageRequest,
 	ServicesPageResponse,
 } from './interfaces/single-types/service-page'
@@ -342,6 +360,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Article
+		 * @name PostArticlesIdLocalizations
+		 * @request POST:/articles/{id}/localizations
+		 * @secure
+		 * @response `200` `ArticleLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postArticlesIdLocalizations: (
+			id: number,
+			data: ArticleLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ArticleLocalizationResponse, Error>({
+				path: `/articles/${id}/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	blogPage = {
 		/**
@@ -412,6 +459,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/blog-page`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Blog-page
+		 * @name PostBlogPageLocalizations
+		 * @request POST:/blog-page/localizations
+		 * @secure
+		 * @response `200` `BlogPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postBlogPageLocalizations: (data: BlogPageLocalizationRequest, params: RequestParams = {}) =>
+			this.request<BlogPageLocalizationResponse, Error>({
+				path: `/blog-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),
@@ -488,6 +560,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Contacts-page
+		 * @name PostContactsPageLocalizations
+		 * @request POST:/contacts-page/localizations
+		 * @secure
+		 * @response `200` `ContactsPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postContactsPageLocalizations: (
+			data: ContactsPageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ContactsPageLocalizationResponse, Error>({
+				path: `/contacts-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	global = {
 		/**
@@ -558,6 +658,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/global`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Global
+		 * @name PostGlobalLocalizations
+		 * @request POST:/global/localizations
+		 * @secure
+		 * @response `200` `GlobalLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postGlobalLocalizations: (data: GlobalLocalizationRequest, params: RequestParams = {}) =>
+			this.request<GlobalLocalizationResponse, Error>({
+				path: `/global/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),
@@ -634,6 +759,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Home-page
+		 * @name PostHomePageLocalizations
+		 * @request POST:/home-page/localizations
+		 * @secure
+		 * @response `200` `HomePageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postHomePageLocalizations: (data: HomePageLocalizationRequest, params: RequestParams = {}) =>
+			this.request<HomePageLocalizationResponse, Error>({
+				path: `/home-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	notFoundPage = {
 		/**
@@ -704,6 +854,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/not-found-page`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Not-found-page
+		 * @name PostNotFoundPageLocalizations
+		 * @request POST:/not-found-page/localizations
+		 * @secure
+		 * @response `200` `NotFoundPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postNotFoundPageLocalizations: (
+			data: NotFoundPageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<NotFoundPageLocalizationResponse, Error>({
+				path: `/not-found-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),
@@ -828,6 +1006,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Page
+		 * @name PostPagesIdLocalizations
+		 * @request POST:/pages/{id}/localizations
+		 * @secure
+		 * @response `200` `PageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postPagesIdLocalizations: (
+			id: number,
+			data: PageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<PageLocalizationResponse, Error>({
+				path: `/pages/${id}/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	service = {
 		/**
@@ -949,6 +1156,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				format: 'json',
 				...params,
 			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Service
+		 * @name PostServicesIdLocalizations
+		 * @request POST:/services/{id}/localizations
+		 * @secure
+		 * @response `200` `ServiceLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postServicesIdLocalizations: (
+			id: number,
+			data: ServiceLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ServiceLocalizationResponse, Error>({
+				path: `/services/${id}/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
+				format: 'json',
+				...params,
+			}),
 	}
 	servicesPage = {
 		/**
@@ -1019,6 +1255,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
 				path: `/services-page`,
 				method: 'DELETE',
 				secure: true,
+				format: 'json',
+				...params,
+			}),
+
+		/**
+		 * No description
+		 *
+		 * @tags Services-page
+		 * @name PostServicesPageLocalizations
+		 * @request POST:/services-page/localizations
+		 * @secure
+		 * @response `200` `ServicesPageLocalizationResponse` OK
+		 * @response `400` `Error` Bad Request
+		 * @response `401` `Error` Unauthorized
+		 * @response `403` `Error` Forbidden
+		 * @response `404` `Error` Not Found
+		 * @response `500` `Error` Internal Server Error
+		 */
+		postServicesPageLocalizations: (
+			data: ServicesPageLocalizationRequest,
+			params: RequestParams = {}
+		) =>
+			this.request<ServicesPageLocalizationResponse, Error>({
+				path: `/services-page/localizations`,
+				method: 'POST',
+				body: data,
+				secure: true,
+				type: ContentType.Json,
 				format: 'json',
 				...params,
 			}),

@@ -1,13 +1,33 @@
 import type { StrapiDefaultTypeParams, StrapiPagination, StrapiParams } from '../common'
 import type { SharedSeoComponent } from '../components/shared'
 
+interface BlogPageLocalizationRequest {
+	title: string
+	description?: string
+	seo: SharedSeoComponent
+	slug: string
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 interface BlogPageRequest {
 	data: {
 		title: string
 		description?: string
 		seo: SharedSeoComponent
 		slug: string
+		locale?: string
 		sitemap_exclude?: boolean
+	}
+}
+
+interface BlogPageLocalizationResponse extends StrapiDefaultTypeParams {
+	title: string
+	description?: string
+	seo: SharedSeoComponent
+	slug: string
+	localizations: {
+		data?: BlogPageListResponseDataItemLocalized[]
 	}
 }
 
@@ -16,8 +36,11 @@ interface BlogPageListResponseDataItem {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: BlogPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -26,8 +49,11 @@ interface BlogPageListResponseDataItemLocalized {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: BlogPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -43,8 +69,11 @@ interface BlogPageResponseDataObject {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: BlogPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -53,8 +82,11 @@ interface BlogPageResponseDataObjectLocalized {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		description?: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 		slug: string
+		localizations: {
+			data?: BlogPageListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -124,10 +156,32 @@ namespace BlogPage {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Blog-page
+	 * @name PostBlogPageLocalizations
+	 * @request POST:/blog-page/localizations
+	 * @secure
+	 * @response `200` `BlogPageLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostBlogPageLocalizations {
+		export type RequestParams = {}
+		export type RequestQuery = {}
+		export type RequestBody = BlogPageLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = BlogPageLocalizationResponse
+	}
 }
 
 export type {
+	BlogPageLocalizationRequest,
 	BlogPageRequest,
+	BlogPageLocalizationResponse,
 	BlogPageListResponseDataItem,
 	BlogPageListResponseDataItemLocalized,
 	BlogPageListResponse,

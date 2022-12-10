@@ -1,12 +1,30 @@
 import type { StrapiDefaultTypeParams, StrapiPagination, StrapiParams } from '../common'
 import type { SharedSeoComponent } from '../components/shared'
 
+interface ArticleLocalizationRequest {
+	title: string
+	slug: string
+	seo: SharedSeoComponent
+	locale: string
+	sitemap_exclude?: boolean
+}
+
 interface ArticleRequest {
 	data: {
 		title: string
 		slug: string
 		seo: SharedSeoComponent
 		sitemap_exclude?: boolean
+		locale?: string
+	}
+}
+
+interface ArticleLocalizationResponse extends StrapiDefaultTypeParams {
+	title: string
+	slug: string
+	seo: SharedSeoComponent
+	localizations: {
+		data?: ArticleListResponseDataItemLocalized[]
 	}
 }
 
@@ -15,7 +33,7 @@ interface ArticleListResponseDataItem {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
 	}
 }
 
@@ -24,7 +42,10 @@ interface ArticleListResponseDataItemLocalized {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
+		localizations: {
+			data?: ArticleListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -40,7 +61,10 @@ interface ArticleResponseDataObject {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
+		localizations: {
+			data?: ArticleListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -49,7 +73,10 @@ interface ArticleResponseDataObjectLocalized {
 	attributes: StrapiDefaultTypeParams & {
 		title: string
 		slug: string
-		seo?: SharedSeoComponent
+		seo: SharedSeoComponent
+		localizations: {
+			data?: ArticleListResponseDataItemLocalized[]
+		}
 	}
 }
 
@@ -165,10 +192,34 @@ namespace Article {
 		export type RequestHeaders = {}
 		export type ResponseBody = number
 	}
+	/**
+	 * No description
+	 * @tags Article
+	 * @name PostArticlesIdLocalizations
+	 * @request POST:/articles/{id}/localizations
+	 * @secure
+	 * @response `200` `ArticleLocalizationResponse` OK
+	 * @response `400` `Error` Bad Request
+	 * @response `401` `Error` Unauthorized
+	 * @response `403` `Error` Forbidden
+	 * @response `404` `Error` Not Found
+	 * @response `500` `Error` Internal Server Error
+	 */
+	export namespace PostArticlesIdLocalizations {
+		export type RequestParams = {
+			id: number
+		}
+		export type RequestQuery = {}
+		export type RequestBody = ArticleLocalizationRequest
+		export type RequestHeaders = {}
+		export type ResponseBody = ArticleLocalizationResponse
+	}
 }
 
 export type {
+	ArticleLocalizationRequest,
 	ArticleRequest,
+	ArticleLocalizationResponse,
 	ArticleListResponseDataItem,
 	ArticleListResponseDataItemLocalized,
 	ArticleListResponse,
