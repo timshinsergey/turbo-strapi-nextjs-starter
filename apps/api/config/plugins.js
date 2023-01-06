@@ -16,4 +16,10 @@ module.exports = ({ env }) => ({
 	//     },
 	//   },
 	// },
+	sitemap: {
+		enabled: true,
+		config: {
+			autoGenerate: false,
+		},
+	},
 })
